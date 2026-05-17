@@ -1,37 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creator Platform</title>
+<title>He Gallery</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
+<!-- Sidebar -->
+
 <aside class="sidebar">
-  <div class="logo">He Gallery</div>
+
+  <div class="logo">
+    He Gallery
+  </div>
 
   <nav>
+
     <a href="#">🏠 Home</a>
     <a href="#">🔥 Trending</a>
     <a href="#">⭐ Creators</a>
     <a href="#">🎥 Videos</a>
     <a href="#">💬 Forum</a>
+
   </nav>
+
 </aside>
+
+<!-- Main -->
 
 <main class="main">
 
-<header class="topbar">
-  <input type="file" id="fileInput">
-  <button onclick="uploadFile()">Upload</button>
-</header>
+  <!-- Topbar -->
 
-<section id="gallery" class="gallery"></section>
+  <header class="topbar">
+
+    <input type="file" id="fileInput">
+
+    <button onclick="uploadFile()">
+      Upload
+    </button>
+
+  </header>
+
+  <!-- Gallery -->
+
+  <section id="gallery" class="gallery"></section>
 
 </main>
 
 <script src="app.js"></script>
+
 </body>
 </html>
