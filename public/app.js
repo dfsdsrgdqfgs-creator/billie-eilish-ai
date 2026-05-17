@@ -18,10 +18,14 @@ async function uploadFile() {
 
   const data = await response.json();
 
-  if (!data.success) {
-    alert('Upload failed');
-    return;
-  }
+if (!data.success) {
+
+  console.log(data);
+
+  alert(JSON.stringify(data));
+
+  return;
+}
 
   const gallery = document.getElementById('gallery');
 
