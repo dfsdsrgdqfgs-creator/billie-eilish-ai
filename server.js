@@ -2,10 +2,16 @@ const express = require('express');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
+const fs = require('fs');
 
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.json());
+
+if (!fs.existsSync('posts.json')) {
+  fs.writeFileSync('posts.json', '[]');
+}
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -53,6 +59,20 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
     const result = await streamUpload(req);
 
+    const posts = JSON.parse(
+      fs.readFileSync('posts.json')
+    );
+
+    posts.unshift({
+      url: result.secure_url,
+      type: req.file.mimetype
+    });
+
+    fs.writeFileSync(
+      'posts.json',
+      JSON.stringify(posts, null, 2)
+    );
+
     res.json({
       success: true,
       url: result.secure_url
@@ -60,12 +80,22 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
   } catch (error) {
 
-res.status(500).json({
-  success: false,
-  error: error.message
-});
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
 
   }
+
+});
+
+app.get('/posts', (req, res) => {
+
+  const posts = JSON.parse(
+    fs.readFileSync('posts.json')
+  );
+
+  res.json(posts);
 
 });
 
