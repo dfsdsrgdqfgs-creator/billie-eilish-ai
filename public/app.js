@@ -1,59 +1,41 @@
-async function uploadFile() {
+async function loadPosts() {
 
-  const input = document.getElementById('fileInput');
-  const file = input.files[0];
+  const response = await fetch('/posts');
 
-  if (!file) {
-    alert('Choose file first');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('media', file);
-
-  const response = await fetch('/upload', {
-    method: 'POST',
-    body: formData
-  });
-
-  const data = await response.json();
-
-if (!data.success) {
-
-  console.log(data);
-
-  alert(JSON.stringify(data));
-
-  return;
-}
+  const posts = await response.json();
 
   const gallery = document.getElementById('gallery');
 
-  const card = document.createElement('div');
-  card.className = 'card';
+  gallery.innerHTML = '';
 
-  if (file.type.startsWith('video')) {
+  posts.forEach(post => {
 
-    const video = document.createElement('video');
-    video.src = data.url;
-    video.controls = true;
+    const card = document.createElement('div');
+    card.className = 'card';
 
-    card.appendChild(video);
+    if (post.type.startsWith('video')) {
 
-  } else {
+      const video = document.createElement('video');
 
-    const img = document.createElement('img');
-    img.src = data.url;
+      video.src = post.url;
+      video.controls = true;
 
-    card.appendChild(img);
+      card.appendChild(video);
 
-  }
+    } else {
 
-  const text = document.createElement('p');
-  text.innerText = 'New Upload';
+      const img = document.createElement('img');
 
-  card.appendChild(text);
+      img.src = post.url;
 
-  gallery.appendChild(card);
+      card.appendChild(img);
+
+    }
+
+    gallery.appendChild(card);
+
+  });
 
 }
+
+loadPosts();
