@@ -14,17 +14,24 @@ cloudinary.config({
 });
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+
+const upload = multer({
+  storage
+});
 
 app.post('/upload', upload.single('media'), async (req, res) => {
 
   try {
 
     const streamUpload = (req) => {
+
       return new Promise((resolve, reject) => {
 
         const stream = cloudinary.uploader.upload_stream(
-          { resource_type: 'auto' },
+          {
+            resource_type: 'auto'
+          },
+
           (error, result) => {
 
             if (result) {
@@ -36,9 +43,12 @@ app.post('/upload', upload.single('media'), async (req, res) => {
           }
         );
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
+        streamifier
+          .createReadStream(req.file.buffer)
+          .pipe(stream);
 
       });
+
     };
 
     const result = await streamUpload(req);
