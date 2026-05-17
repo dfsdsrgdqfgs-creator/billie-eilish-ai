@@ -1,3 +1,34 @@
+async function uploadFile() {
+
+  const input = document.getElementById('fileInput');
+  const file = input.files[0];
+
+  if (!file) {
+    alert('Choose file first');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('media', file);
+
+  const response = await fetch('/upload', {
+    method: 'POST',
+    body: formData
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+
+    alert(data.error || 'Upload failed');
+
+    return;
+  }
+
+  loadPosts();
+
+}
+
 async function loadPosts() {
 
   const response = await fetch('/posts');
