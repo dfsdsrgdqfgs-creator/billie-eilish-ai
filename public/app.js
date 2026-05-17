@@ -1,51 +1,55 @@
+async function uploadFile() {
 
-async function uploadFile(){
+  const input = document.getElementById('fileInput');
+  const file = input.files[0];
 
-const input = document.getElementById('fileInput');
-const file = input.files[0];
+  if (!file) {
+    alert('Choose file first');
+    return;
+  }
 
-if(!file){
-alert('Choose file first');
-return;
-}
+  const formData = new FormData();
+  formData.append('media', file);
 
-const formData = new FormData();
-formData.append('media', file);
+  const response = await fetch('/upload', {
+    method: 'POST',
+    body: formData
+  });
 
-const response = await fetch('/upload', {
-method:'POST',
-body: formData
-});
+  const data = await response.json();
 
-const data = await response.json();
+  if (!data.success) {
+    alert('Upload failed');
+    return;
+  }
 
-const gallery = document.getElementById('gallery');
+  const gallery = document.getElementById('gallery');
 
-const card = document.createElement('div');
-card.className = 'card';
+  const card = document.createElement('div');
+  card.className = 'card';
 
-const fileUrl = '/uploads/' + data.file;
+  if (file.type.startsWith('video')) {
 
-if(file.type.startsWith('video')){
+    const video = document.createElement('video');
+    video.src = data.url;
+    video.controls = true;
 
-const video = document.createElement('video');
-video.src = fileUrl;
-video.controls = true;
-card.appendChild(video);
+    card.appendChild(video);
 
-}else{
+  } else {
 
-const img = document.createElement('img');
-img.src = fileUrl;
-card.appendChild(img);
+    const img = document.createElement('img');
+    img.src = data.url;
 
-}
+    card.appendChild(img);
 
-const text = document.createElement('p');
-text.innerText = 'New Upload';
+  }
 
-card.appendChild(text);
+  const text = document.createElement('p');
+  text.innerText = 'New Upload';
 
-gallery.appendChild(card);
+  card.appendChild(text);
+
+  gallery.appendChild(card);
 
 }
