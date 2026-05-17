@@ -60,10 +60,10 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
   } catch (error) {
 
-    res.status(500).json({
-      success: false,
-      error
-    });
+res.status(500).json({
+  success: false,
+  error: error.message
+});
 
   }
 
