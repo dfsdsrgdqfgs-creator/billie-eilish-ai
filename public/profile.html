@@ -33,21 +33,69 @@
 
 </aside>
 
+<!-- Top Bar -->
+
+<div class="top-user-bar">
+
+  <div class="user-icons">
+
+    <span>✉️</span>
+
+    <span>🔔</span>
+
+  </div>
+
+  <div class="user-profile">
+
+    <img src="icon.jpg" class="user-avatar">
+
+    <span id="topUsername">
+      Guest
+    </span>
+
+  </div>
+
+</div>
+
 <!-- Main -->
 
 <main class="main">
+
+  <!-- Upload Banner -->
+
+  <div class="upload-banner-box">
+
+    <input type="file" id="bannerInput" accept="image/*,gif/*">
+
+    <button onclick="uploadBanner()">
+      Upload Banner
+    </button>
+
+  </div>
+
+  <!-- Upload Avatar -->
+
+  <div class="upload-avatar-box">
+
+    <input type="file" id="avatarInput" accept="image/*,gif/*">
+
+    <button onclick="uploadAvatar()">
+      Upload Avatar
+    </button>
+
+  </div>
 
   <!-- Profile Banner -->
 
   <div class="profile-banner">
 
-    <img src="banner.jpg" class="profile-banner-img">
+    <img src="banner.jpg" class="profile-banner-img" id="profileBanner">
 
     <div class="profile-content">
 
       <!-- Avatar -->
 
-      <img src="icon.jpg" class="profile-avatar">
+      <img src="icon.jpg" class="profile-avatar" id="profileAvatar">
 
       <!-- User Info -->
 
@@ -151,11 +199,77 @@ async function loadProfile(){
 
     document.getElementById('profileUsername').innerText = data.username;
 
+    document.getElementById('topUsername').innerText = data.username;
+
   }
 
 }
 
 loadProfile();
+
+/* Upload Avatar */
+
+function uploadAvatar(){
+
+  const file = document.getElementById('avatarInput').files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    document.getElementById('profileAvatar').src = e.target.result;
+
+    localStorage.setItem('profileAvatar', e.target.result);
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+/* Upload Banner */
+
+function uploadBanner(){
+
+  const file = document.getElementById('bannerInput').files[0];
+
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+
+    document.getElementById('profileBanner').src = e.target.result;
+
+    localStorage.setItem('profileBanner', e.target.result);
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+/* Load Saved Avatar */
+
+const savedAvatar = localStorage.getItem('profileAvatar');
+
+if(savedAvatar){
+
+  document.getElementById('profileAvatar').src = savedAvatar;
+
+}
+
+/* Load Saved Banner */
+
+const savedBanner = localStorage.getItem('profileBanner');
+
+if(savedBanner){
+
+  document.getElementById('profileBanner').src = savedBanner;
+
+}
 
 </script>
 
