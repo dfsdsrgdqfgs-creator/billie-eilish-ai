@@ -1,310 +1,71 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* ADMIN PANEL */
 
-body{
-  background:#111;
-  color:white;
-  font-family:Arial,sans-serif;
-}
-
-/* TOP HEADER */
-
-.top-header{
-  background:#0f2235;
-  padding:12px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:1px solid #1f3349;
-}
-
-.top-left,
-.top-right{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.top-left a{
-  background:#1f2f45;
-  color:white;
-  text-decoration:none;
-  padding:10px 14px;
-  border-radius:4px;
-  font-size:13px;
-}
-
-.top-left a:hover{
-  background:#2d5f96;
-}
-
-/* LOGIN */
-
-.login-btn{
-  background:transparent;
-  border:none;
-  color:white;
-  font-size:14px;
-  cursor:pointer;
-  padding:8px 12px;
-}
-
-.login-btn:hover{
-  color:#69a7ff;
-}
-
-/* REGISTER */
-
-.register-btn{
-  background:#58b05a;
-  border:none;
-  color:white;
-  padding:9px 16px;
-  border-radius:4px;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:bold;
-}
-
-.register-btn:hover{
-  background:#66c568;
-}
-
-/* USER */
-
-.user-box{
-  gap:12px;
-}
-
-.user-avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid #69a7ff;
-}
-
-/* MAIN */
-
-.main{
-  width:92%;
-  margin:auto;
-  padding-top:20px;
-}
-
-/* BANNER */
-
-.banner{
-  height:120px;
-  background:#172330;
-  border:1px solid #26384b;
-  border-radius:6px;
-  margin-bottom:20px;
-}
-
-/* BOX */
-
-.small-box{
+.admin-panel{
   background:#161616;
   border:1px solid #2b2b2b;
-  padding:15px;
-  margin-bottom:20px;
-  border-radius:5px;
+  border-radius:8px;
+  padding:30px;
 }
 
-/* FLEX */
+.admin-panel h1{
+  margin-bottom:30px;
+}
 
-.content-flex{
+.admin-stats{
   display:flex;
   gap:20px;
-  align-items:flex-start;
+  margin-bottom:30px;
 }
 
-.left-side{
+.admin-card{
   flex:1;
-}
-
-/* SIDE BLOCK */
-
-.side-block{
-  width:320px;
-  background:#161616;
-  border:1px solid #2b2b2b;
-  border-radius:5px;
-  overflow:hidden;
-}
-
-.side-block-header{
-  background:#2d5f96;
-  padding:12px;
-  font-weight:bold;
-}
-
-.side-block-content{
-  padding:20px;
-  color:#ccc;
-}
-
-/* TABS */
-
-.forum-top-tabs{
-  display:flex;
-  gap:10px;
-  margin-bottom:10px;
-}
-
-.forum-top-tabs button{
   background:#1f1f1f;
-  border:1px solid #2d2d2d;
-  color:#ccc;
-  padding:10px 14px;
-  border-radius:4px;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.forum-top-tabs button:hover{
-  background:#2d5f96;
-  color:white;
-}
-
-.active-tab{
-  background:#2d5f96 !important;
-  color:white !important;
-}
-
-/* FORUM */
-
-.real-forum{
-  background:#161616;
-  border:1px solid #2b2b2b;
-  border-radius:5px;
-  overflow:hidden;
-}
-
-.real-forum-header{
-  background:#2d5f96;
-  padding:12px 15px;
-  font-size:15px;
-  font-weight:bold;
-}
-
-/* ITEMS */
-
-.real-forum-item{
-  display:flex;
-  align-items:center;
-  padding:22px;
-  border-top:1px solid #222;
-  transition:0.2s;
-}
-
-.real-forum-item:hover{
-  background:#1d1d1d;
-}
-
-.real-forum-icon{
-  width:55px;
-  font-size:28px;
-  color:#69a7ff;
-}
-
-.real-forum-info{
-  flex:1;
-}
-
-.real-forum-info h2{
-  margin-bottom:6px;
-}
-
-.real-forum-info h2 a{
-  color:white;
-  text-decoration:none;
-  font-size:21px;
-}
-
-.real-forum-info h2 a:hover{
-  color:#69a7ff;
-}
-
-.real-forum-info p{
-  color:#888;
-  font-size:13px;
-}
-
-/* STATS */
-
-.forum-stats{
-  width:140px;
+  padding:25px;
+  border-radius:8px;
   text-align:center;
+  border:1px solid #2d2d2d;
+}
+
+.admin-card h2{
+  font-size:40px;
   color:#69a7ff;
-  font-size:14px;
-}
-
-.forum-stats strong{
-  display:block;
-  font-size:22px;
-  color:white;
-}
-
-/* LAST POST */
-
-.last-post{
-  width:240px;
-  color:#ccc;
-  font-size:13px;
-}
-
-/* MODAL */
-
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-box{
-  width:400px;
-  background:#161616;
-  border-radius:12px;
-  padding:30px;
-  position:relative;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-}
-
-.modal-box h2{
   margin-bottom:10px;
 }
 
-.modal-box input{
+.admin-box{
   background:#1f1f1f;
+  padding:25px;
+  border-radius:8px;
+  margin-bottom:20px;
+  border:1px solid #2d2d2d;
+}
+
+.admin-box h2{
+  margin-bottom:20px;
+}
+
+.admin-box input{
+  width:100%;
+  background:#111;
   border:1px solid #333;
   color:white;
   padding:14px;
   border-radius:6px;
+  margin-bottom:15px;
 }
 
-.modal-button{
+.admin-box button{
   background:#2d5f96;
   border:none;
   color:white;
-  padding:14px;
+  padding:12px 20px;
   border-radius:6px;
   cursor:pointer;
 }
 
-.close-btn{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:28px;
-  cursor:pointer;
+.member-item{
+  background:#111;
+  padding:14px;
+  border-radius:6px;
+  margin-bottom:10px;
 }
