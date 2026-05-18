@@ -7,7 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Billie Eilish Porn</title>
+<title>He Gallery</title>
 
 <link rel="icon" type="image/jpg" href="icon.jpg">
 
@@ -22,7 +22,7 @@
 <aside class="sidebar">
 
   <div class="logo">
-    Billie Eilish Porn
+    He Gallery
   </div>
 
   <nav>
@@ -43,11 +43,11 @@
 
   <div class="auth-buttons">
 
-    <button class="login-btn">
+    <button class="login-btn" onclick="openLogin()">
       Log In
     </button>
 
-    <button class="signup-btn">
+    <button class="signup-btn" onclick="openRegister()">
       Sign Up
     </button>
 
@@ -59,9 +59,9 @@
 
 <main class="main">
 
-  <!-- Admin Panel -->
+  <!-- Admin Upload -->
 
-  <header class="topbar admin-panel">
+  <header class="topbar">
 
     <input
       type="password"
@@ -86,7 +86,87 @@
 
 </main>
 
+<!-- LOGIN MODAL -->
+
+<div id="loginModal" class="modal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeLogin()">
+      ×
+    </span>
+
+    <h2>Log In</h2>
+
+    <input type="text" placeholder="Username or Email">
+
+    <input type="password" placeholder="Password">
+
+    <button class="modal-button">
+      Log In
+    </button>
+
+  </div>
+
+</div>
+
+<!-- REGISTER MODAL -->
+
+<div id="registerModal" class="modal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeRegister()">
+      ×
+    </span>
+
+    <h2>Register</h2>
+
+    <input type="text" placeholder="Username">
+
+    <input type="email" placeholder="Email">
+
+    <input type="password" placeholder="Password">
+
+    <input type="date">
+
+    <button class="modal-button">
+      Register
+    </button>
+
+  </div>
+
+</div>
+
 <script src="app.js"></script>
+
+<script>
+
+function openLogin(){
+
+  document.getElementById('loginModal').style.display='flex';
+
+}
+
+function closeLogin(){
+
+  document.getElementById('loginModal').style.display='none';
+
+}
+
+function openRegister(){
+
+  document.getElementById('registerModal').style.display='flex';
+
+}
+
+function closeRegister(){
+
+  document.getElementById('registerModal').style.display='none';
+
+}
+
+</script>
 
 </body>
 </html>
