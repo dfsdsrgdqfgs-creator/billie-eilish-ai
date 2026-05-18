@@ -1,10 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const path = require('path');
 
 const app = express();
 
@@ -42,49 +40,26 @@ mongoose.connect(process.env.MONGODB_URI)
 
 });
 
-/* User Model */
+/* User Schema */
 
 const userSchema = new mongoose.Schema({
 
-  username:{
-    type:String,
-    required:true,
-    unique:true
-  },
+  username:String,
 
-  email:{
-    type:String,
-    required:true,
-    unique:true
-  },
+  email:String,
 
-  password:{
-    type:String,
-    required:true
-  }
+  password:String
 
 });
 
-const User = mongoose.model('ForumUser', userSchema);
+const User = mongoose.model('User', userSchema);
 
-/* Cloudinary */
+/* Home */
 
-cloudinary.config({
+app.get('/', (req,res) => {
 
-  cloud_name: process.env.CLOUD_NAME,
+  res.sendFile(path.join(__dirname,'public/index.html'));
 
-  api_key: process.env.API_KEY,
-
-  api_secret: process.env.API_SECRET
-
-});
-
-/* Multer */
-
-const storage = multer.memoryStorage();
-
-const upload = multer({
-  storage
 });
 
 /* Register */
@@ -278,75 +253,9 @@ app.get('/logout', (req,res) => {
 
 });
 
-/* Upload */
-
-app.post('/upload', upload.single('media'), async (req,res) => {
-
-  try{
-
-    const streamUpload = (req) => {
-
-      return new Promise((resolve,reject) => {
-
-        const stream = cloudinary.uploader.upload_stream(
-
-          {
-
-            resource_type:'auto'
-
-          },
-
-          (error,result) => {
-
-            if(result){
-
-              resolve(result);
-
-            }else{
-
-              reject(error);
-
-            }
-
-          }
-
-        );
-
-        streamifier
-        .createReadStream(req.file.buffer)
-        .pipe(stream);
-
-      });
-
-    };
-
-    const result = await streamUpload(req);
-
-    res.json({
-
-      success:true,
-
-      url:result.secure_url
-
-    });
-
-  }catch(error){
-
-    res.json({
-
-      success:false,
-
-      message:error.message
-
-    });
-
-  }
-
-});
-
 /* Start Server */
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
 
