@@ -9,11 +9,15 @@
 
 <title>Videos</title>
 
+<link rel="icon" type="image/jpg" href="icon.jpg">
+
 <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
+
+<!-- Sidebar -->
 
 <aside class="sidebar">
 
@@ -35,19 +39,104 @@
 
   </nav>
 
+  <!-- Auth Buttons -->
+
+  <div class="auth-buttons">
+
+    <button class="login-btn">
+      Log In
+    </button>
+
+    <button class="signup-btn">
+      Sign Up
+    </button>
+
+  </div>
+
 </aside>
+
+<!-- Main -->
 
 <main class="main">
 
-  <h1 style="margin-bottom:30px;">
-    Videos Page
-  </h1>
+  <!-- Upload Panel -->
+
+  <header class="topbar">
+
+    <input
+      type="password"
+      id="adminPassword"
+      placeholder="Admin Password"
+    >
+
+    <input
+      type="file"
+      id="fileInput"
+      accept="video/*"
+    >
+
+    <button onclick="uploadFile()">
+      Upload
+    </button>
+
+  </header>
+
+  <!-- Video Gallery -->
 
   <section id="videoGallery" class="gallery"></section>
 
 </main>
 
 <script>
+
+const ADMIN_PASSWORD = "123456";
+
+async function uploadFile() {
+
+  const password = document.getElementById('adminPassword').value;
+
+  if (password !== ADMIN_PASSWORD) {
+
+    alert('Only admin can upload');
+
+    return;
+
+  }
+
+  const input = document.getElementById('fileInput');
+
+  const file = input.files[0];
+
+  if (!file) {
+
+    alert('Choose video first');
+
+    return;
+
+  }
+
+  const formData = new FormData();
+
+  formData.append('media', file);
+
+  const response = await fetch('/upload', {
+    method:'POST',
+    body:formData
+  });
+
+  const data = await response.json();
+
+  if (!data.success) {
+
+    alert('Upload failed');
+
+    return;
+
+  }
+
+  loadVideos();
+
+}
 
 async function loadVideos(){
 
@@ -56,6 +145,8 @@ async function loadVideos(){
   const posts = await response.json();
 
   const gallery = document.getElementById('videoGallery');
+
+  gallery.innerHTML = '';
 
   posts.forEach(post => {
 
