@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thread</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+    He Gallery
+  </div>
+
+  <nav>
+
+    <a href="index.html">🏠 Home</a>
+
+    <a href="forum.html">💬 Forum</a>
+
+  </nav>
+
+</aside>
+
+<!-- Main -->
+
+<main class="main">
+
+  <!-- Thread Header -->
+
+  <div class="thread-page-header">
+
+    <h1 id="threadTitle">
+      My First Story
+    </h1>
+
+    <button class="post-btn" onclick="showReplyBox()">
+      Post reply
+    </button>
+
+  </div>
+
+  <!-- Thread Post -->
+
+  <div class="thread-post">
+
+    <!-- User Side -->
+
+    <div class="thread-user">
+
+      <img src="icon.jpg" class="thread-avatar" id="threadAvatar">
+
+      <h3 id="threadUsername">
+        Guest
+      </h3>
+
+      <div class="thread-user-stats">
+
+        <p>
+          Joined: 2026
+        </p>
+
+        <p>
+          Messages: 1
+        </p>
+
+        <p>
+          Reputation: 0
+        </p>
+
+      </div>
+
+      <div class="online-badge">
+        Online
+      </div>
+
+    </div>
+
+    <!-- Content -->
+
+    <div class="thread-content">
+
+      <div class="thread-date">
+        Just now
+      </div>
+
+      <div class="thread-message" id="mainThreadMessage">
+
+        Welcome to my story 🔥
+
+      </div>
+
+      <div class="thread-actions">
+
+        <button onclick="likePost()">
+          👍 Like
+        </button>
+
+        <button onclick="showReplyBox()">
+          💬 Reply
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Replies -->
+
+  <div id="repliesContainer">
+
+  </div>
+
+  <!-- Reply Box -->
+
+  <div class="reply-box" id="replyBox">
+
+    <textarea id="replyText" placeholder="Write your reply..."></textarea>
+
+    <button class="post-btn" onclick="postReply()">
+      Post Reply
+    </button>
+
+  </div>
+
+</main>
+
+<script>
+
+/* Load User */
+
+async function loadThreadUser(){
+
+  const response = await fetch('/me');
+
+  const data = await response.json();
+
+  if(data.loggedIn){
+
+    document.getElementById('threadUsername').innerText = data.username;
+
+  }
+
+}
+
+loadThreadUser();
+
+/* Show Reply */
+
+function showReplyBox(){
+
+  document.getElementById('replyBox').style.display = 'block';
+
+}
+
+/* Like */
+
+let likes = 0;
+
+function likePost(){
+
+  likes++;
+
+  alert('Likes: ' + likes);
+
+}
+
+/* Post Reply */
+
+function postReply(){
+
+  const text = document.getElementById('replyText').value;
+
+  if(!text) return;
+
+  const username = document.getElementById('threadUsername').innerText;
+
+  const avatar = localStorage.getItem('profileAvatar') || 'icon.jpg';
+
+  const replyHTML = `
+
+  <div class="thread-post">
+
+    <div class="thread-user">
+
+      <img src="${avatar}" class="thread-avatar">
+
+      <h3>
+        ${username}
+      </h3>
+
+      <div class="thread-user-stats">
+
+        <p>
+          Member
+        </p>
+
+      </div>
+
+      <div class="online-badge">
+        Online
+      </div>
+
+    </div>
+
+    <div class="thread-content">
+
+      <div class="thread-date">
+        Just now
+      </div>
+
+      <div class="thread-message">
+
+        ${text}
+
+      </div>
+
+      <div class="thread-actions">
+
+        <button>
+          👍 Like
+        </button>
+
+        <button>
+          💬 Reply
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
+  document.getElementById('repliesContainer').innerHTML += replyHTML;
+
+  document.getElementById('replyText').value = '';
+
+}
+
+/* Load Avatar */
+
+const savedAvatar = localStorage.getItem('profileAvatar');
+
+if(savedAvatar){
+
+  document.getElementById('threadAvatar').src = savedAvatar;
+
+}
+
+</script>
+
+</body>
+</html>
