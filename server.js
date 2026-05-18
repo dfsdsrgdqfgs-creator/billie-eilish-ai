@@ -1,12 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const bcrypt = require('bcryptjs');
 const path = require('path');
 
 const app = express();
 
-/* Middleware */
+/* MIDDLEWARE */
 
 app.use(express.json());
 
@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 app.use(session({
 
-  secret:'secret-key',
+  secret:'forumsecret',
 
   resave:false,
 
@@ -24,7 +24,7 @@ app.use(session({
 
 }));
 
-/* MongoDB */
+/* MONGODB */
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 });
 
-/* User Schema */
+/* USER SCHEMA */
 
 const userSchema = new mongoose.Schema({
 
@@ -48,36 +48,52 @@ const userSchema = new mongoose.Schema({
 
   email:String,
 
-  password:String
+  password:String,
+
+  avatar:{
+    type:String,
+    default:'icon.jpg'
+  }
 
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('ForumUser', userSchema);
 
-/* Home */
+/* THREAD SCHEMA */
 
-app.get('/', (req,res) => {
+const threadSchema = new mongoose.Schema({
 
-  res.sendFile(path.join(__dirname,'public/index.html'));
+  title:String,
+
+  message:String,
+
+  username:String,
+
+  avatar:String,
+
+  likes:{
+    type:Number,
+    default:0
+  },
+
+  createdAt:{
+    type:Date,
+    default:Date.now
+  }
 
 });
 
-/* Register */
+const Thread = mongoose.model('Thread', threadSchema);
+
+/* REGISTER */
 
 app.post('/register', async (req,res) => {
 
   try{
 
-    const { username, email, password } = req.body;
+    const { username,email,password } = req.body;
 
-    const existingUser = await User.findOne({
-
-      $or:[
-        { email },
-        { username }
-      ]
-
-    });
+    const existingUser = await User.findOne({ email });
 
     if(existingUser){
 
@@ -85,7 +101,7 @@ app.post('/register', async (req,res) => {
 
         success:false,
 
-        message:'User already exists'
+        message:'Email already exists'
 
       });
 
@@ -105,25 +121,29 @@ app.post('/register', async (req,res) => {
 
     await user.save();
 
-    req.session.userId = user._id;
-
-    res.json({
-
-      success:true,
+    req.session.user = {
 
       username:user.username,
 
-      message:'Registered successfully'
+      email:user.email,
+
+      avatar:user.avatar
+
+    };
+
+    res.json({
+
+      success:true
 
     });
 
-  }catch(error){
+  }catch(err){
 
     res.json({
 
       success:false,
 
-      message:error.message
+      message:err.message
 
     });
 
@@ -131,13 +151,13 @@ app.post('/register', async (req,res) => {
 
 });
 
-/* Login */
+/* LOGIN */
 
 app.post('/login', async (req,res) => {
 
   try{
 
-    const { email, password } = req.body;
+    const { email,password } = req.body;
 
     const user = await User.findOne({ email });
 
@@ -153,7 +173,7 @@ app.post('/login', async (req,res) => {
 
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = await bcrypt.compare(password,user.password);
 
     if(!validPassword){
 
@@ -167,23 +187,29 @@ app.post('/login', async (req,res) => {
 
     }
 
-    req.session.userId = user._id;
+    req.session.user = {
+
+      username:user.username,
+
+      email:user.email,
+
+      avatar:user.avatar
+
+    };
 
     res.json({
 
-      success:true,
-
-      username:user.username
+      success:true
 
     });
 
-  }catch(error){
+  }catch(err){
 
     res.json({
 
       success:false,
 
-      message:error.message
+      message:err.message
 
     });
 
@@ -191,43 +217,23 @@ app.post('/login', async (req,res) => {
 
 });
 
-/* Current User */
+/* GET USER */
 
-app.get('/me', async (req,res) => {
+app.get('/me',(req,res) => {
 
-  try{
-
-    if(!req.session.userId){
-
-      return res.json({
-
-        loggedIn:false
-
-      });
-
-    }
-
-    const user = await User.findById(req.session.userId);
-
-    if(!user){
-
-      return res.json({
-
-        loggedIn:false
-
-      });
-
-    }
+  if(req.session.user){
 
     res.json({
 
       loggedIn:true,
 
-      username:user.username
+      username:req.session.user.username,
+
+      avatar:req.session.user.avatar
 
     });
 
-  }catch(error){
+  }else{
 
     res.json({
 
@@ -239,25 +245,83 @@ app.get('/me', async (req,res) => {
 
 });
 
-/* Logout */
+/* LOGOUT */
 
-app.get('/logout', (req,res) => {
+app.get('/logout',(req,res) => {
 
-  req.session.destroy();
+  req.session.destroy(() => {
 
-  res.json({
-
-    success:true
+    res.redirect('/');
 
   });
 
 });
 
-/* Start Server */
+/* CREATE THREAD */
 
-const PORT = process.env.PORT || 10000;
+app.post('/create-thread', async (req,res) => {
 
-app.listen(PORT, () => {
+  try{
+
+    const thread = new Thread({
+
+      title:req.body.title,
+
+      message:req.body.message,
+
+      username:req.body.username,
+
+      avatar:req.body.avatar
+
+    });
+
+    await thread.save();
+
+    res.json({
+
+      success:true
+
+    });
+
+  }catch(err){
+
+    res.json({
+
+      success:false,
+
+      message:err.message
+
+    });
+
+  }
+
+});
+
+/* GET THREADS */
+
+app.get('/threads', async (req,res) => {
+
+  const threads = await Thread.find()
+
+  .sort({ createdAt:-1 });
+
+  res.json(threads);
+
+});
+
+/* HOME */
+
+app.get('/',(req,res) => {
+
+  res.sendFile(path.join(__dirname,'public/index.html'));
+
+});
+
+/* START */
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT,() => {
 
   console.log('Server running on port ' + PORT);
 
