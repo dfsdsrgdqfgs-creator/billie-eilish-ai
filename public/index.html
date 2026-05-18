@@ -23,9 +23,13 @@
     He Gallery
   </div>
 
+  <!-- Dark Mode -->
+
   <button id="themeToggle" class="theme-btn">
     🌙 Dark Mode
   </button>
+
+  <!-- Navigation -->
 
   <nav>
 
@@ -39,7 +43,9 @@
 
   </nav>
 
-  <div class="auth-buttons">
+  <!-- Auth Buttons -->
+
+  <div class="auth-buttons" id="authButtons">
 
     <button class="login-btn" onclick="openLogin()">
       Log In
@@ -73,13 +79,17 @@
       Guest
     </span>
 
+    <!-- Dropdown -->
+
     <div class="user-dropdown" id="userDropdown">
 
       <a href="#">👤 Your account</a>
 
-      <a href="#">⚙️ Settings</a>
+      <a href="#">⚙️ Preferences</a>
 
-      <a href="/logout">🚪 Logout</a>
+      <a href="#" onclick="logoutUser()">
+        🚪 Logout
+      </a>
 
     </div>
 
@@ -97,6 +107,8 @@
       Home
     </div>
 
+    <!-- Category -->
+
     <div class="forum-category">
 
       <div class="forum-icon">
@@ -106,14 +118,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Announcements
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -124,14 +140,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Comments & Feedbacks
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -142,9 +162,11 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Applications Rank/Award
           </a>
+
         </h2>
 
         <p>
@@ -155,6 +177,8 @@
 
     </div>
 
+    <!-- Category -->
+
     <div class="forum-category">
 
       <div class="forum-icon">
@@ -164,19 +188,25 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Technical Support
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Header -->
 
     <div class="forum-header">
       Community
     </div>
 
+    <!-- Category -->
+
     <div class="forum-category">
 
       <div class="forum-icon">
@@ -186,14 +216,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             General Discussion
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -204,14 +238,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Hello World!
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -222,14 +260,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             International - No English
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -240,14 +282,18 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Technology & Finance News
           </a>
+
         </h2>
 
       </div>
 
     </div>
+
+    <!-- Category -->
 
     <div class="forum-category">
 
@@ -258,9 +304,11 @@
       <div class="forum-info">
 
         <h2>
+
           <a href="forum.html">
             Comedy
           </a>
+
         </h2>
 
       </div>
@@ -327,6 +375,8 @@
 
 <script>
 
+/* Login Modal */
+
 function openLogin(){
 
   document.getElementById('loginModal').style.display='flex';
@@ -339,6 +389,8 @@ function closeLogin(){
 
 }
 
+/* Register Modal */
+
 function openRegister(){
 
   document.getElementById('registerModal').style.display='flex';
@@ -350,6 +402,8 @@ function closeRegister(){
   document.getElementById('registerModal').style.display='none';
 
 }
+
+/* User Dropdown */
 
 function toggleUserMenu(){
 
@@ -367,6 +421,8 @@ function toggleUserMenu(){
 
 }
 
+/* Dark Mode */
+
 const themeToggle = document.getElementById('themeToggle');
 
 themeToggle.addEventListener('click', () => {
@@ -374,6 +430,8 @@ themeToggle.addEventListener('click', () => {
   document.body.classList.toggle('light-mode');
 
 });
+
+/* Register */
 
 async function registerUser(){
 
@@ -405,7 +463,19 @@ async function registerUser(){
 
   alert(data.message);
 
+  if(data.success){
+
+    document.getElementById('loggedUsername').innerText = data.username;
+
+    document.getElementById('authButtons').style.display = 'none';
+
+    closeRegister();
+
+  }
+
 }
+
+/* Login */
 
 async function loginUser(){
 
@@ -436,6 +506,8 @@ async function loginUser(){
 
     document.getElementById('loggedUsername').innerText = data.username;
 
+    document.getElementById('authButtons').style.display = 'none';
+
     closeLogin();
 
   }else{
@@ -443,6 +515,36 @@ async function loginUser(){
     alert(data.message);
 
   }
+
+}
+
+/* Check Saved Login */
+
+async function checkLogin(){
+
+  const response = await fetch('/me');
+
+  const data = await response.json();
+
+  if(data.loggedIn){
+
+    document.getElementById('loggedUsername').innerText = data.username;
+
+    document.getElementById('authButtons').style.display = 'none';
+
+  }
+
+}
+
+checkLogin();
+
+/* Logout */
+
+async function logoutUser(){
+
+  await fetch('/logout');
+
+  location.reload();
 
 }
 
