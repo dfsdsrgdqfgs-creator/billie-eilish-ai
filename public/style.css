@@ -1,132 +1,20 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+/* Image Zoom */
 
-body{
-  display:flex;
-  background:#0d0d0d;
-  color:white;
-  font-family:Arial, sans-serif;
-}
-
-/* Sidebar */
-
-.sidebar{
-  width:250px;
-  height:100vh;
-  background:#111111;
-  padding:30px 20px;
-  border-right:1px solid #222;
+.image-overlay{
   position:fixed;
-}
-
-.logo{
-  font-size:38px;
-  font-weight:bold;
-  color:#ff4f8b;
-  margin-bottom:50px;
-}
-
-.sidebar nav{
-  display:flex;
-  flex-direction:column;
-  gap:25px;
-}
-
-.sidebar nav a{
-  color:#cccccc;
-  text-decoration:none;
-  font-size:20px;
-  transition:0.3s;
-}
-
-.sidebar nav a:hover{
-  color:#ff4f8b;
-}
-
-/* Main */
-
-.main{
-  margin-left:250px;
+  top:0;
+  left:0;
   width:100%;
-  padding:30px;
-}
-
-/* Topbar */
-
-.topbar{
+  height:100%;
+  background:rgba(0,0,0,0.95);
   display:flex;
-  gap:15px;
-  margin-bottom:30px;
+  justify-content:center;
   align-items:center;
+  z-index:9999;
 }
 
-.topbar input{
-  background:#1a1a1a;
-  border:1px solid #333;
-  color:white;
-  padding:12px;
-  border-radius:10px;
-}
-
-.topbar button{
-  background:#ff4f8b;
-  color:white;
-  border:none;
-  padding:12px 25px;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:16px;
-  transition:0.3s;
-}
-
-.topbar button:hover{
-  background:#ff2f74;
-}
-
-/* Gallery */
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:20px;
-}
-
-.card{
-  background:#161616;
-  border-radius:15px;
-  overflow:hidden;
-  border:1px solid #222;
-  transition:0.3s;
-}
-
-.card:hover{
-  transform:scale(1.02);
-}
-
-.card img,
-.card video{
-  width:100%;
-  display:block;
-  max-height:500px;
-  object-fit:cover;
-}
-
-/* Delete Button */
-
-.delete-btn{
-  width:100%;
-  padding:12px;
-  background:#ff2f74;
-  color:white;
-  border:none;
-  cursor:pointer;
-  font-size:16px;
-  transition:0.3s;
-}
-
-.delete-btn:hover{
-  background:red;
+.big-image{
+  max-width:90%;
+  max-height:90%;
+  border-radius:20px;
 }
