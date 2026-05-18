@@ -389,10 +389,6 @@
 
   </section>
 
-  <!-- Gallery -->
-
-  <section id="gallery" class="gallery"></section>
-
 </main>
 
 <!-- LOGIN -->
@@ -407,11 +403,11 @@
 
     <h2>Log In</h2>
 
-    <input type="text" placeholder="Username or Email">
+    <input type="email" id="loginEmail" placeholder="Email">
 
-    <input type="password" placeholder="Password">
+    <input type="password" id="loginPassword" placeholder="Password">
 
-    <button class="modal-button">
+    <button class="modal-button" onclick="loginUser()">
       Log In
     </button>
 
@@ -431,23 +427,19 @@
 
     <h2>Register</h2>
 
-    <input type="text" placeholder="Username">
+    <input type="text" id="registerUsername" placeholder="Username">
 
-    <input type="email" placeholder="Email">
+    <input type="email" id="registerEmail" placeholder="Email">
 
-    <input type="password" placeholder="Password">
+    <input type="password" id="registerPassword" placeholder="Password">
 
-    <input type="date">
-
-    <button class="modal-button">
+    <button class="modal-button" onclick="registerUser()">
       Register
     </button>
 
   </div>
 
 </div>
-
-<script src="app.js"></script>
 
 <script>
 
@@ -475,7 +467,7 @@ function closeRegister(){
 
 }
 
-/* Theme Mode */
+/* Theme */
 
 const themeToggle = document.getElementById('themeToggle');
 
@@ -494,6 +486,84 @@ themeToggle.addEventListener('click', () => {
   }
 
 });
+
+/* Register */
+
+async function registerUser(){
+
+  const username = document.getElementById('registerUsername').value;
+
+  const email = document.getElementById('registerEmail').value;
+
+  const password = document.getElementById('registerPassword').value;
+
+  const response = await fetch('/register',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+
+      username,
+
+      email,
+
+      password
+
+    })
+
+  });
+
+  const data = await response.json();
+
+  alert(data.message);
+
+}
+
+/* Login */
+
+async function loginUser(){
+
+  const email = document.getElementById('loginEmail').value;
+
+  const password = document.getElementById('loginPassword').value;
+
+  const response = await fetch('/login',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+
+      email,
+
+      password
+
+    })
+
+  });
+
+  const data = await response.json();
+
+  if(data.success){
+
+    alert('Welcome ' + data.username);
+
+    closeLogin();
+
+  }else{
+
+    alert(data.message);
+
+  }
+
+}
 
 </script>
 
