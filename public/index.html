@@ -25,6 +25,12 @@
     He Gallery
   </div>
 
+  <!-- Theme Button -->
+
+  <button id="themeToggle" class="theme-btn">
+    🌙 Dark Mode
+  </button>
+
   <nav>
 
     <a href="index.html">🏠 Home</a>
@@ -468,6 +474,26 @@ function closeRegister(){
   document.getElementById('registerModal').style.display='none';
 
 }
+
+/* Theme Mode */
+
+const themeToggle = document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click', () => {
+
+  document.body.classList.toggle('light-mode');
+
+  if(document.body.classList.contains('light-mode')){
+
+    themeToggle.innerHTML = '☀️ Light Mode';
+
+  }else{
+
+    themeToggle.innerHTML = '🌙 Dark Mode';
+
+  }
+
+});
 
 </script>
 
