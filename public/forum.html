@@ -1,68 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Forum</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
-
 <body>
 
 <aside class="sidebar">
-
-  <div class="logo">
-    He Gallery
-  </div>
-
-  <nav>
-
-    <a href="index.html">🏠 Home</a>
-
-    <a href="#">🔥 Trending</a>
-
-    <a href="#">⭐ Creators</a>
-
-    <a href="videos.html">🎥 Videos</a>
-
-    <a href="forum.html">💬 Forum</a>
-
-  </nav>
-
+<div class="logo">He Gallery</div>
+<nav>
+<a href="index.html">🏠 Home</a>
+<a href="forum.html">💬 Forum</a>
+</nav>
 </aside>
 
 <main class="main">
 
-  <div class="thread-box">
+<div class="thread-box">
 
-    <input
-      type="text"
-      class="thread-title"
-      placeholder="Thread title"
-    >
+<div class="logged-user-post">
+Posting as:
+<strong id="forumUsername">Guest</strong>
+</div>
 
-    <textarea
-      class="thread-message"
-      placeholder="Message..."
-    ></textarea>
+<input type="text" class="thread-title" placeholder="Thread title">
 
-    <div class="thread-buttons">
+<textarea class="thread-message" placeholder="Write something..."></textarea>
 
-      <button class="post-btn">
-        Post Thread
-      </button>
+<button class="post-btn">Post Thread</button>
 
-    </div>
-
-  </div>
+</div>
 
 </main>
+
+<script>
+
+async function checkForumUser(){
+
+const response = await fetch('/me');
+
+const data = await response.json();
+
+if(data.loggedIn){
+
+document.getElementById('forumUsername').innerText = data.username;
+
+}
+
+}
+
+checkForumUser();
+
+</script>
 
 </body>
 </html>
