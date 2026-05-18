@@ -1,3 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>He Gallery</title>
+
+<link rel="icon" type="image/jpg" href="icon.jpg">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
 <!-- Sidebar -->
 
 <aside class="sidebar">
@@ -6,11 +25,13 @@
     He Gallery
   </div>
 
-  <!-- Theme Button -->
+  <!-- Theme -->
 
   <button id="themeToggle" class="theme-btn">
     🌙 Dark Mode
   </button>
+
+  <!-- Navigation -->
 
   <nav>
 
@@ -63,3 +84,446 @@
   </div>
 
 </aside>
+
+<!-- Top User Bar -->
+
+<div class="top-user-bar">
+
+  <div class="user-icons">
+
+    <span>✉️</span>
+
+    <span>🔔</span>
+
+  </div>
+
+  <div class="user-profile" onclick="toggleUserMenu()">
+
+    <img
+      src="icon.jpg"
+      class="user-avatar"
+    >
+
+    <span id="loggedUsername">
+      Guest
+    </span>
+
+  </div>
+
+  <!-- Dropdown -->
+
+  <div class="user-dropdown" id="userDropdown">
+
+    <div class="dropdown-header">
+
+      <img src="icon.jpg">
+
+      <div>
+
+        <h3 id="dropdownUsername">
+          Guest
+        </h3>
+
+        <p>
+          Welcome to He Gallery
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="dropdown-links">
+
+      <a href="#">👤 Your account</a>
+
+      <a href="#">📝 Your content</a>
+
+      <a href="#">❤️ Reactions</a>
+
+      <a href="#">⚙️ Preferences</a>
+
+      <a href="#">🚪 Log out</a>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Main -->
+
+<main class="main">
+
+  <!-- Forum -->
+
+  <section class="forum-wrapper">
+
+    <div class="forum-header">
+      Home
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Announcements
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Comments & Feedbacks
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Applications Rank/Award
+          </a>
+        </h2>
+
+        <p>Sub-forums</p>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Technical Support
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-header">
+      Community
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            General Discussion
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Hello World!
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            International - No English
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Technology & Finance News
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+    <div class="forum-category">
+
+      <div class="forum-icon">
+        💬
+      </div>
+
+      <div class="forum-info">
+
+        <h2>
+          <a href="forum.html">
+            Comedy
+          </a>
+        </h2>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- LOGIN -->
+
+<div id="loginModal" class="modal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeLogin()">
+      ×
+    </span>
+
+    <h2>Log In</h2>
+
+    <input type="email" id="loginEmail" placeholder="Email">
+
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button class="modal-button" onclick="loginUser()">
+      Log In
+    </button>
+
+  </div>
+
+</div>
+
+<!-- REGISTER -->
+
+<div id="registerModal" class="modal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeRegister()">
+      ×
+    </span>
+
+    <h2>Register</h2>
+
+    <input type="text" id="registerUsername" placeholder="Username">
+
+    <input type="email" id="registerEmail" placeholder="Email">
+
+    <input type="password" id="registerPassword" placeholder="Password">
+
+    <button class="modal-button" onclick="registerUser()">
+      Register
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+function openLogin(){
+
+  document.getElementById('loginModal').style.display='flex';
+
+}
+
+function closeLogin(){
+
+  document.getElementById('loginModal').style.display='none';
+
+}
+
+function openRegister(){
+
+  document.getElementById('registerModal').style.display='flex';
+
+}
+
+function closeRegister(){
+
+  document.getElementById('registerModal').style.display='none';
+
+}
+
+/* Theme */
+
+const themeToggle = document.getElementById('themeToggle');
+
+themeToggle.addEventListener('click', () => {
+
+  document.body.classList.toggle('light-mode');
+
+  if(document.body.classList.contains('light-mode')){
+
+    themeToggle.innerHTML = '☀️ Light Mode';
+
+  }else{
+
+    themeToggle.innerHTML = '🌙 Dark Mode';
+
+  }
+
+});
+
+/* User Dropdown */
+
+function toggleUserMenu(){
+
+  const menu = document.getElementById('userDropdown');
+
+  if(menu.style.display === 'block'){
+
+    menu.style.display = 'none';
+
+  }else{
+
+    menu.style.display = 'block';
+
+  }
+
+}
+
+/* Register */
+
+async function registerUser(){
+
+  const username = document.getElementById('registerUsername').value;
+
+  const email = document.getElementById('registerEmail').value;
+
+  const password = document.getElementById('registerPassword').value;
+
+  const response = await fetch('/register',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+      username,
+      email,
+      password
+    })
+
+  });
+
+  const data = await response.json();
+
+  alert(data.message);
+
+}
+
+/* Login */
+
+async function loginUser(){
+
+  const email = document.getElementById('loginEmail').value;
+
+  const password = document.getElementById('loginPassword').value;
+
+  const response = await fetch('/login',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+      email,
+      password
+    })
+
+  });
+
+  const data = await response.json();
+
+  if(data.success){
+
+    document.getElementById('loggedUsername').innerText = data.username;
+
+    document.getElementById('dropdownUsername').innerText = data.username;
+
+    alert('Welcome ' + data.username);
+
+    closeLogin();
+
+  }else{
+
+    alert(data.message);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
