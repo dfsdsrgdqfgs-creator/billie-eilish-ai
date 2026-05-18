@@ -33,6 +33,30 @@
 
 </aside>
 
+<!-- Top Bar -->
+
+<div class="top-user-bar">
+
+  <div class="user-icons">
+
+    <span>✉️</span>
+
+    <span>🔔</span>
+
+  </div>
+
+  <div class="user-profile">
+
+    <img src="icon.jpg" class="user-avatar" id="threadTopAvatar">
+
+    <span id="threadTopUsername">
+      Guest
+    </span>
+
+  </div>
+
+</div>
+
 <!-- Main -->
 
 <main class="main">
@@ -51,11 +75,11 @@
 
   </div>
 
-  <!-- Thread Post -->
+  <!-- Main Thread -->
 
   <div class="thread-post">
 
-    <!-- User Side -->
+    <!-- User -->
 
     <div class="thread-user">
 
@@ -151,13 +175,15 @@ async function loadThreadUser(){
 
     document.getElementById('threadUsername').innerText = data.username;
 
+    document.getElementById('threadTopUsername').innerText = data.username;
+
   }
 
 }
 
 loadThreadUser();
 
-/* Show Reply */
+/* Show Reply Box */
 
 function showReplyBox(){
 
@@ -189,67 +215,106 @@ function postReply(){
 
   const avatar = localStorage.getItem('profileAvatar') || 'icon.jpg';
 
-  const replyHTML = `
+  const reply = {
 
-  <div class="thread-post">
+    username,
+    avatar,
+    text,
+    date:'Just now'
 
-    <div class="thread-user">
+  };
 
-      <img src="${avatar}" class="thread-avatar">
+  let replies = JSON.parse(localStorage.getItem('threadReplies')) || [];
 
-      <h3>
-        ${username}
-      </h3>
+  replies.push(reply);
 
-      <div class="thread-user-stats">
+  localStorage.setItem('threadReplies', JSON.stringify(replies));
 
-        <p>
-          Member
-        </p>
-
-      </div>
-
-      <div class="online-badge">
-        Online
-      </div>
-
-    </div>
-
-    <div class="thread-content">
-
-      <div class="thread-date">
-        Just now
-      </div>
-
-      <div class="thread-message">
-
-        ${text}
-
-      </div>
-
-      <div class="thread-actions">
-
-        <button>
-          👍 Like
-        </button>
-
-        <button>
-          💬 Reply
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-  document.getElementById('repliesContainer').innerHTML += replyHTML;
+  renderReplies();
 
   document.getElementById('replyText').value = '';
 
 }
+
+/* Render Replies */
+
+function renderReplies(){
+
+  const container = document.getElementById('repliesContainer');
+
+  const replies = JSON.parse(localStorage.getItem('threadReplies')) || [];
+
+  container.innerHTML = '';
+
+  replies.forEach(reply => {
+
+    container.innerHTML += `
+
+    <div class="thread-post">
+
+      <!-- User -->
+
+      <div class="thread-user">
+
+        <img src="${reply.avatar}" class="thread-avatar">
+
+        <h3>
+          ${reply.username}
+        </h3>
+
+        <div class="thread-user-stats">
+
+          <p>
+            Member
+          </p>
+
+        </div>
+
+        <div class="online-badge">
+          Online
+        </div>
+
+      </div>
+
+      <!-- Content -->
+
+      <div class="thread-content">
+
+        <div class="thread-date">
+          ${reply.date}
+        </div>
+
+        <div class="thread-message">
+
+          ${reply.text}
+
+        </div>
+
+        <div class="thread-actions">
+
+          <button>
+            👍 Like
+          </button>
+
+          <button>
+            💬 Reply
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    `;
+
+  });
+
+}
+
+/* Load Replies */
+
+renderReplies();
 
 /* Load Avatar */
 
@@ -259,9 +324,12 @@ if(savedAvatar){
 
   document.getElementById('threadAvatar').src = savedAvatar;
 
+  document.getElementById('threadTopAvatar').src = savedAvatar;
+
 }
 
 </script>
 
 </body>
+
 </html>
