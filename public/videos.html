@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Videos</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+  <div class="logo">
+    He Gallery
+  </div>
+
+  <nav>
+
+    <a href="index.html">🏠 Home</a>
+
+    <a href="#">🔥 Trending</a>
+
+    <a href="#">⭐ Creators</a>
+
+    <a href="videos.html">🎥 Videos</a>
+
+    <a href="#">💬 Forum</a>
+
+  </nav>
+
+</aside>
+
+<main class="main">
+
+  <h1 style="margin-bottom:30px;">
+    Videos Page
+  </h1>
+
+  <section id="videoGallery" class="gallery"></section>
+
+</main>
+
+<script>
+
+async function loadVideos(){
+
+  const response = await fetch('/posts');
+
+  const posts = await response.json();
+
+  const gallery = document.getElementById('videoGallery');
+
+  posts.forEach(post => {
+
+    if(post.type.startsWith('video')){
+
+      const card = document.createElement('div');
+
+      card.className = 'card';
+
+      const video = document.createElement('video');
+
+      video.src = post.url;
+
+      video.controls = true;
+
+      card.appendChild(video);
+
+      gallery.appendChild(card);
+
+    }
+
+  });
+
+}
+
+loadVideos();
+
+</script>
+
+</body>
+</html>
