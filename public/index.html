@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DarkForums</title>
+
+<link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
 
 <!-- TOP HEADER -->
 
@@ -6,22 +22,34 @@
   <div class="top-left">
 
     <a href="#">🏠 Home</a>
+
     <a href="#">🗂 Databases</a>
+
     <a href="#">⭐ Upgrades</a>
+
     <a href="#">🔍 Search</a>
+
     <a href="#">🛒 Marketplace</a>
 
   </div>
 
-  <div class="top-right">
+  <div class="top-right" id="authButtons">
 
-    <button class="login-btn">
+    <button class="login-btn" onclick="showLogin()">
       Login
     </button>
 
-    <button class="register-btn">
+    <button class="register-btn" onclick="showRegister()">
       Register
     </button>
+
+  </div>
+
+  <div class="top-right" id="userBox" style="display:none;">
+
+    <span id="topUsername"></span>
+
+    <img src="icon.jpg" class="user-avatar" id="topAvatar">
 
   </div>
 
@@ -98,9 +126,11 @@
           <div class="real-forum-info">
 
             <h2>
+
               <a href="forum.html">
                 Announcements
               </a>
+
             </h2>
 
             <p>
@@ -144,9 +174,11 @@
           <div class="real-forum-info">
 
             <h2>
+
               <a href="forum.html">
                 General Discussion
               </a>
+
             </h2>
 
             <p>
@@ -183,7 +215,7 @@
 
     </div>
 
-    <!-- RIGHT SIDE -->
+    <!-- RIGHT -->
 
     <div class="side-block">
 
@@ -204,3 +236,202 @@
   </div>
 
 </div>
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeLogin()">
+      ×
+    </span>
+
+    <h2>
+      Login
+    </h2>
+
+    <input type="email" id="loginEmail" placeholder="Email">
+
+    <input type="password" id="loginPassword" placeholder="Password">
+
+    <button class="modal-button" onclick="login()">
+      Login
+    </button>
+
+  </div>
+
+</div>
+
+<!-- REGISTER MODAL -->
+
+<div class="modal" id="registerModal">
+
+  <div class="modal-box">
+
+    <span class="close-btn" onclick="closeRegister()">
+      ×
+    </span>
+
+    <h2>
+      Register
+    </h2>
+
+    <input type="text" id="registerUsername" placeholder="Username">
+
+    <input type="email" id="registerEmail" placeholder="Email">
+
+    <input type="password" id="registerPassword" placeholder="Password">
+
+    <button class="modal-button" onclick="register()">
+      Register
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+
+function showLogin(){
+
+  document.getElementById('loginModal').style.display = 'flex';
+
+}
+
+function closeLogin(){
+
+  document.getElementById('loginModal').style.display = 'none';
+
+}
+
+/* REGISTER */
+
+function showRegister(){
+
+  document.getElementById('registerModal').style.display = 'flex';
+
+}
+
+function closeRegister(){
+
+  document.getElementById('registerModal').style.display = 'none';
+
+}
+
+/* REGISTER API */
+
+async function register(){
+
+  const username =
+  document.getElementById('registerUsername').value;
+
+  const email =
+  document.getElementById('registerEmail').value;
+
+  const password =
+  document.getElementById('registerPassword').value;
+
+  const response = await fetch('/register',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+
+      username,
+      email,
+      password
+
+    })
+
+  });
+
+  const data = await response.json();
+
+  if(data.success){
+
+    location.reload();
+
+  }else{
+
+    alert(data.message);
+
+  }
+
+}
+
+/* LOGIN API */
+
+async function login(){
+
+  const email =
+  document.getElementById('loginEmail').value;
+
+  const password =
+  document.getElementById('loginPassword').value;
+
+  const response = await fetch('/login',{
+
+    method:'POST',
+
+    headers:{
+      'Content-Type':'application/json'
+    },
+
+    body:JSON.stringify({
+
+      email,
+      password
+
+    })
+
+  });
+
+  const data = await response.json();
+
+  if(data.success){
+
+    location.reload();
+
+  }else{
+
+    alert(data.message);
+
+  }
+
+}
+
+/* LOAD USER */
+
+async function loadUser(){
+
+  const response = await fetch('/me');
+
+  const data = await response.json();
+
+  if(data.loggedIn){
+
+    document.getElementById('authButtons').style.display = 'none';
+
+    document.getElementById('userBox').style.display = 'flex';
+
+    document.getElementById('topUsername').innerText =
+    data.username;
+
+  }
+
+}
+
+loadUser();
+
+</script>
+
+</body>
+
+</html>
