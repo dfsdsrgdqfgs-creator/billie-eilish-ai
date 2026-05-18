@@ -62,7 +62,21 @@ const upload = multer({
   storage
 });
 
-/* REGISTER */
+/* User Model */
+
+const userSchema = new mongoose.Schema({
+
+  username:String,
+
+  email:String,
+
+  password:String
+
+});
+
+const ForumUser = mongoose.model('ForumUser', userSchema);
+
+/* Register */
 
 app.post('/register', async (req,res) => {
 
@@ -70,7 +84,7 @@ app.post('/register', async (req,res) => {
 
     const { username, email, password } = req.body;
 
-    const existingUser = await User.findOne({
+    const existingUser = await ForumUser.findOne({
 
       $or:[
         { email },
@@ -93,7 +107,7 @@ app.post('/register', async (req,res) => {
 
     const hashedPassword = await bcrypt.hash(password,10);
 
-    const user = new User({
+    const user = new ForumUser({
 
       username,
 
@@ -105,9 +119,13 @@ app.post('/register', async (req,res) => {
 
     await user.save();
 
+    req.session.userId = user._id;
+
     res.json({
 
       success:true,
+
+      username:user.username,
 
       message:'Registered successfully'
 
@@ -127,7 +145,7 @@ app.post('/register', async (req,res) => {
 
 });
 
-/* LOGIN */
+/* Login */
 
 app.post('/login', async (req,res) => {
 
@@ -135,7 +153,7 @@ app.post('/login', async (req,res) => {
 
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await ForumUser.findOne({ email });
 
     if(!user){
 
@@ -187,7 +205,55 @@ app.post('/login', async (req,res) => {
 
 });
 
-/* LOGOUT */
+/* Current User */
+
+app.get('/me', async (req,res) => {
+
+  try{
+
+    if(!req.session.userId){
+
+      return res.json({
+
+        loggedIn:false
+
+      });
+
+    }
+
+    const user = await ForumUser.findById(req.session.userId);
+
+    if(!user){
+
+      return res.json({
+
+        loggedIn:false
+
+      });
+
+    }
+
+    res.json({
+
+      loggedIn:true,
+
+      username:user.username
+
+    });
+
+  }catch(error){
+
+    res.json({
+
+      loggedIn:false
+
+    });
+
+  }
+
+});
+
+/* Logout */
 
 app.get('/logout', (req,res) => {
 
@@ -265,7 +331,7 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
 });
 
-/* Start Server */
+/* Server */
 
 app.listen(3000, () => {
 
