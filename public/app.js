@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = "0698";
+const ADMIN_PASSWORD = "123456";
 
 async function uploadFile() {
 
@@ -97,6 +97,28 @@ async function loadPosts() {
       const img = document.createElement('img');
 
       img.src = post.url;
+
+      img.onclick = () => {
+
+        const overlay = document.createElement('div');
+
+        overlay.className = 'image-overlay';
+
+        const bigImg = document.createElement('img');
+
+        bigImg.src = post.url;
+
+        bigImg.className = 'big-image';
+
+        overlay.appendChild(bigImg);
+
+        overlay.onclick = () => {
+          overlay.remove();
+        };
+
+        document.body.appendChild(overlay);
+
+      };
 
       card.appendChild(img);
 
