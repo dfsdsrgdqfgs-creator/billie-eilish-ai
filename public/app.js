@@ -1,4 +1,4 @@
-const ADMIN_PASSWORD = "123456";
+const ADMIN_PASSWORD = "0698";
 
 async function uploadFile() {
 
