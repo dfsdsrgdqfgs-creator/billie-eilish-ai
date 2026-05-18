@@ -2,16 +2,27 @@ const express = require('express');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-const fs = require('fs');
+const mongoose = require('mongoose');
 
 const app = express();
 
 app.use(express.static('public'));
 app.use(express.json());
 
-if (!fs.existsSync('posts.json')) {
-  fs.writeFileSync('posts.json', '[]');
-}
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log('MongoDB Connected');
+})
+.catch((err) => {
+  console.log(err);
+});
+
+const postSchema = new mongoose.Schema({
+  url: String,
+  type: String
+});
+
+const Post = mongoose.model('Post', postSchema);
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -59,19 +70,12 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
     const result = await streamUpload(req);
 
-    const posts = JSON.parse(
-      fs.readFileSync('posts.json')
-    );
-
-    posts.unshift({
+    const newPost = new Post({
       url: result.secure_url,
       type: req.file.mimetype
     });
 
-    fs.writeFileSync(
-      'posts.json',
-      JSON.stringify(posts, null, 2)
-    );
+    await newPost.save();
 
     res.json({
       success: true,
@@ -89,11 +93,9 @@ app.post('/upload', upload.single('media'), async (req, res) => {
 
 });
 
-app.get('/posts', (req, res) => {
+app.get('/posts', async (req, res) => {
 
-  const posts = JSON.parse(
-    fs.readFileSync('posts.json')
-  );
+  const posts = await Post.find().sort({ _id: -1 });
 
   res.json(posts);
 
