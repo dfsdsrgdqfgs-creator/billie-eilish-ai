@@ -1,3 +1,141 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  display:flex;
+  background:#0d0d0d;
+  color:white;
+  font-family:Arial, sans-serif;
+}
+
+/* Sidebar */
+
+.sidebar{
+  width:250px;
+  height:100vh;
+  background:#111111;
+  padding:30px 20px;
+  border-right:1px solid #222;
+  position:fixed;
+  top:0;
+  left:0;
+  overflow:auto;
+}
+
+.logo{
+  font-size:38px;
+  font-weight:bold;
+  color:#ff4f8b;
+  margin-bottom:50px;
+}
+
+.sidebar nav{
+  display:flex;
+  flex-direction:column;
+  gap:25px;
+}
+
+.sidebar nav a{
+  color:#cccccc;
+  text-decoration:none;
+  font-size:20px;
+  transition:0.3s;
+}
+
+.sidebar nav a:hover{
+  color:#ff4f8b;
+}
+
+/* Main */
+
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  padding:30px;
+}
+
+/* Topbar */
+
+.topbar{
+  display:flex;
+  gap:15px;
+  margin-bottom:30px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.topbar input{
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:white;
+  padding:12px;
+  border-radius:10px;
+}
+
+.topbar button{
+  background:#ff4f8b;
+  color:white;
+  border:none;
+  padding:12px 25px;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:16px;
+  transition:0.3s;
+}
+
+.topbar button:hover{
+  background:#ff2f74;
+}
+
+/* Gallery */
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:#161616;
+  border-radius:15px;
+  overflow:hidden;
+  border:1px solid #222;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:scale(1.02);
+}
+
+.card img,
+.card video{
+  width:100%;
+  display:block;
+  max-height:500px;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+/* Delete Button */
+
+.delete-btn{
+  width:100%;
+  padding:12px;
+  background:#ff2f74;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-size:16px;
+  transition:0.3s;
+}
+
+.delete-btn:hover{
+  background:red;
+}
+
 /* Image Zoom */
 
 .image-overlay{
@@ -24,4 +162,27 @@
   border-radius:20px;
 
   box-shadow:0 0 40px rgba(0,0,0,0.8);
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+  .sidebar{
+    width:100%;
+    height:auto;
+    position:relative;
+    border-right:none;
+    border-bottom:1px solid #222;
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .gallery{
+    grid-template-columns:1fr;
+  }
+
 }
