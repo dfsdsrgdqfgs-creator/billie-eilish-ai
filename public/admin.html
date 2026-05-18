@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel</title>
+
+<link rel="stylesheet" href="/style.css">
+
+</head>
+
+<body>
+
+<!-- TOP -->
+
+<div class="top-header">
+
+  <div class="top-left">
+
+    <a href="index.html">
+      🏠 Home
+    </a>
+
+    <a href="forum.html">
+      💬 Forum
+    </a>
+
+  </div>
+
+  <div class="top-right">
+
+    <button class="register-btn">
+      ADMIN PANEL
+    </button>
+
+  </div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+  <div class="admin-panel">
+
+    <h1>
+      Admin Dashboard
+    </h1>
+
+    <!-- STATS -->
+
+    <div class="admin-stats">
+
+      <div class="admin-card">
+
+        <h2 id="usersCount">
+          0
+        </h2>
+
+        <p>
+          Users
+        </p>
+
+      </div>
+
+      <div class="admin-card">
+
+        <h2 id="threadsCount">
+          0
+        </h2>
+
+        <p>
+          Threads
+        </p>
+
+      </div>
+
+      <div class="admin-card">
+
+        <h2 id="postsCount">
+          0
+        </h2>
+
+        <p>
+          Posts
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- CREATE CATEGORY -->
+
+    <div class="admin-box">
+
+      <h2>
+        Create Forum Category
+      </h2>
+
+      <input
+        type="text"
+        id="categoryName"
+        placeholder="Category Name"
+      >
+
+      <button onclick="createCategory()">
+        Create
+      </button>
+
+    </div>
+
+    <!-- USERS -->
+
+    <div class="admin-box">
+
+      <h2>
+        Members
+      </h2>
+
+      <div id="membersList">
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+/* USERS */
+
+let members = JSON.parse(localStorage.getItem('forumMembers')) || [];
+
+/* THREADS */
+
+let threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
+
+/* STATS */
+
+document.getElementById('usersCount').innerText =
+members.length;
+
+document.getElementById('threadsCount').innerText =
+threads.length;
+
+document.getElementById('postsCount').innerText =
+threads.length;
+
+/* MEMBERS LIST */
+
+const membersList =
+document.getElementById('membersList');
+
+members.forEach(member => {
+
+  membersList.innerHTML += `
+
+    <div class="member-item">
+
+      👤 ${member.username}
+
+    </div>
+
+  `;
+
+});
+
+/* CREATE CATEGORY */
+
+function createCategory(){
+
+  const category =
+  document.getElementById('categoryName').value;
+
+  if(!category) return;
+
+  let categories =
+  JSON.parse(localStorage.getItem('forumCategories')) || [];
+
+  categories.push(category);
+
+  localStorage.setItem(
+    'forumCategories',
+    JSON.stringify(categories)
+  );
+
+  alert('Category Created');
+
+}
+
+</script>
+
+</body>
+
+</html>
