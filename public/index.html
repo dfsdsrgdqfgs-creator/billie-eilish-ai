@@ -84,10 +84,12 @@
     <div class="user-dropdown" id="userDropdown">
 
       <a href="profile.html">
-  👤 Your account
-</a>
+        👤 Your account
+      </a>
 
-      <a href="#">⚙️ Preferences</a>
+      <a href="#">
+        ⚙️ Preferences
+      </a>
 
       <a href="#" onclick="logoutUser()">
         🚪 Logout
@@ -120,11 +122,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Announcements
           </a>
-
         </h2>
 
       </div>
@@ -142,11 +142,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Comments & Feedbacks
           </a>
-
         </h2>
 
       </div>
@@ -164,11 +162,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Applications Rank/Award
           </a>
-
         </h2>
 
         <p>
@@ -190,11 +186,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Technical Support
           </a>
-
         </h2>
 
       </div>
@@ -218,11 +212,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             General Discussion
           </a>
-
         </h2>
 
       </div>
@@ -240,11 +232,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Hello World!
           </a>
-
         </h2>
 
       </div>
@@ -262,11 +252,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             International - No English
           </a>
-
         </h2>
 
       </div>
@@ -284,11 +272,9 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Technology & Finance News
           </a>
-
         </h2>
 
       </div>
@@ -306,14 +292,30 @@
       <div class="forum-info">
 
         <h2>
-
           <a href="forum.html">
             Comedy
           </a>
-
         </h2>
 
       </div>
+
+    </div>
+
+  </section>
+
+  <!-- Online Members -->
+
+  <section class="online-members">
+
+    <h2>
+      Members recently online
+    </h2>
+
+    <div id="onlineUsersList">
+
+      <span class="online-user">
+        Guest
+      </span>
 
     </div>
 
@@ -433,6 +435,22 @@ themeToggle.addEventListener('click', () => {
 
 });
 
+/* Online Users */
+
+function addOnlineUser(username){
+
+  const list = document.getElementById('onlineUsersList');
+
+  list.innerHTML = `
+  
+    <span class="online-user">
+      🟢 ${username}
+    </span>
+
+  `;
+
+}
+
 /* Register */
 
 async function registerUser(){
@@ -470,6 +488,8 @@ async function registerUser(){
     document.getElementById('loggedUsername').innerText = data.username;
 
     document.getElementById('authButtons').style.display = 'none';
+
+    addOnlineUser(data.username);
 
     closeRegister();
 
@@ -510,6 +530,8 @@ async function loginUser(){
 
     document.getElementById('authButtons').style.display = 'none';
 
+    addOnlineUser(data.username);
+
     closeLogin();
 
   }else{
@@ -533,6 +555,8 @@ async function checkLogin(){
     document.getElementById('loggedUsername').innerText = data.username;
 
     document.getElementById('authButtons').style.display = 'none';
+
+    addOnlineUser(data.username);
 
   }
 
