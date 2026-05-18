@@ -10,6 +10,7 @@ body{
   font-family:Arial,sans-serif;
   display:flex;
   min-height:100vh;
+  transition:0.3s;
 }
 
 /* Sidebar */
@@ -37,7 +38,33 @@ body{
   font-size:38px;
   font-weight:bold;
   color:#ff4f8b;
-  margin-bottom:40px;
+  margin-bottom:25px;
+}
+
+/* Theme Button */
+
+.theme-btn{
+  margin-bottom:30px;
+
+  background:#ff4f8b;
+
+  color:white;
+
+  border:none;
+
+  padding:12px;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
+  font-size:17px;
+
+  transition:0.3s;
+}
+
+.theme-btn:hover{
+  background:#ff2f74;
 }
 
 /* Navigation */
@@ -405,6 +432,47 @@ body{
   color:white;
 
   cursor:pointer;
+}
+
+/* Light Mode */
+
+body.light-mode{
+  background:#f3f3f3;
+  color:#111;
+}
+
+body.light-mode .sidebar{
+  background:white;
+  border-right:1px solid #ddd;
+}
+
+body.light-mode .sidebar nav a{
+  color:#222;
+}
+
+body.light-mode .main{
+  background:#f3f3f3;
+}
+
+body.light-mode .forum-wrapper{
+  background:white;
+}
+
+body.light-mode .forum-category{
+  background:#fafafa;
+}
+
+body.light-mode .card{
+  background:white;
+}
+
+body.light-mode .modal-box{
+  background:white;
+}
+
+body.light-mode .modal-box input{
+  background:#f5f5f5;
+  color:#111;
 }
 
 /* Mobile */
