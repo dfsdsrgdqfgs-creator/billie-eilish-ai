@@ -1,69 +1,34 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
+  margin:0;
   background:#111;
   color:white;
   font-family:Arial,sans-serif;
 }
 
-/* TOPBAR */
-
 .top-header{
-  width:100%;
-  height:42px;
   background:#0f2235;
-  border-bottom:1px solid #1e3a57;
+  padding:12px 20px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  padding:0 25px;
+  align-items:center;
 }
 
-.top-left{
-  display:flex;
-  gap:15px;
-}
-
-.top-left a{
-  color:white;
-  text-decoration:none;
-  font-size:13px;
-  background:#1c2f45;
-  padding:10px 14px;
-  border-radius:4px;
-}
-
-.top-left a:hover{
-  background:#2d5f96;
-}
-
+.top-left,
 .top-right{
   display:flex;
   gap:10px;
 }
 
+.top-left a,
 .top-right button{
-  border:none;
-  padding:8px 14px;
-  border-radius:4px;
+  background:#1f2f45;
   color:white;
+  text-decoration:none;
+  border:none;
+  padding:10px 14px;
+  border-radius:4px;
   cursor:pointer;
-  font-size:12px;
 }
-
-.login-btn{
-  background:#1f2630;
-}
-
-.register-btn{
-  background:#49a54d;
-}
-
-/* MAIN */
 
 .main{
   width:92%;
@@ -71,143 +36,33 @@ body{
   padding-top:20px;
 }
 
-/* BANNER */
-
 .banner{
   height:120px;
   background:#172330;
-  border:1px solid #26384b;
   border-radius:6px;
   margin-bottom:20px;
 }
 
-/* SMALL BOX */
-
 .small-box{
-  background:#161616;
-  border:1px solid #2b2b2b;
+  background:#1b1b1b;
   padding:15px;
   margin-bottom:20px;
-  border-radius:5px;
+  border-radius:6px;
 }
 
-/* TABS */
-
-.forum-top-tabs{
+.content-flex{
   display:flex;
-  gap:10px;
-  margin-bottom:10px;
+  gap:20px;
 }
 
-.forum-top-tabs button{
-  background:#1f1f1f;
-  border:1px solid #2d2d2d;
-  color:#ccc;
-  padding:10px 14px;
-  border-radius:4px;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.forum-top-tabs button:hover{
-  background:#2d5f96;
-  color:white;
-}
-
-.active-tab{
-  background:#2d5f96 !important;
-  color:white !important;
-}
-
-/* FORUM */
-
-.real-forum{
-  background:#161616;
-  border:1px solid #2b2b2b;
-  border-radius:5px;
-  overflow:hidden;
-}
-
-.real-forum-header{
-  background:#2d5f96;
-  padding:12px 15px;
-  font-size:15px;
-  font-weight:bold;
-}
-
-/* ITEMS */
-
-.real-forum-item{
-  display:flex;
-  align-items:center;
-  padding:22px;
-  border-top:1px solid #222;
-  transition:0.2s;
-}
-
-.real-forum-item:hover{
-  background:#1d1d1d;
-}
-
-.real-forum-icon{
-  width:55px;
-  font-size:28px;
-  color:#69a7ff;
-}
-
-.real-forum-info{
+.left-side{
   flex:1;
 }
 
-.real-forum-info h2{
-  margin-bottom:6px;
-}
-
-.real-forum-info h2 a{
-  color:white;
-  text-decoration:none;
-  font-size:21px;
-}
-
-.real-forum-info h2 a:hover{
-  color:#69a7ff;
-}
-
-.real-forum-info p{
-  color:#888;
-  font-size:13px;
-}
-
-/* STATS */
-
-.forum-stats{
-  width:140px;
-  text-align:center;
-  color:#69a7ff;
-  font-size:14px;
-}
-
-.forum-stats strong{
-  display:block;
-  font-size:22px;
-  color:white;
-}
-
-/* LAST POST */
-
-.last-post{
-  width:240px;
-  color:#ccc;
-  font-size:13px;
-}
-
-/* SIDEBLOCK */
-
 .side-block{
-  width:320px;
-  background:#161616;
-  border:1px solid #2b2b2b;
-  border-radius:5px;
+  width:300px;
+  background:#1b1b1b;
+  border-radius:6px;
   overflow:hidden;
 }
 
@@ -218,18 +73,80 @@ body{
 }
 
 .side-block-content{
-  padding:20px;
-  color:#ccc;
+  padding:15px;
 }
 
-/* FLEX */
-
-.content-flex{
+.forum-top-tabs{
   display:flex;
-  gap:20px;
-  align-items:flex-start;
+  gap:10px;
+  margin-bottom:10px;
 }
 
-.left-side{
+.forum-top-tabs button{
+  background:#222;
+  border:none;
+  color:white;
+  padding:10px 14px;
+  border-radius:4px;
+}
+
+.active-tab{
+  background:#2d5f96 !important;
+}
+
+.real-forum{
+  background:#1b1b1b;
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.real-forum-header{
+  background:#2d5f96;
+  padding:14px;
+  font-weight:bold;
+}
+
+.real-forum-item{
+  display:flex;
+  align-items:center;
+  padding:22px;
+  border-top:1px solid #2a2a2a;
+}
+
+.real-forum-icon{
+  width:60px;
+  font-size:28px;
+}
+
+.real-forum-info{
   flex:1;
+}
+
+.real-forum-info h2{
+  margin:0 0 8px;
+}
+
+.real-forum-info h2 a{
+  color:white;
+  text-decoration:none;
+}
+
+.real-forum-info p{
+  color:#999;
+  margin:0;
+}
+
+.forum-stats{
+  width:120px;
+  text-align:center;
+}
+
+.forum-stats strong{
+  display:block;
+  font-size:22px;
+}
+
+.last-post{
+  width:220px;
+  color:#ccc;
 }
