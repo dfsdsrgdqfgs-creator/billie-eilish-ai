@@ -61,7 +61,7 @@
 
 <main class="main">
 
-  <!-- Forum Header -->
+  <!-- Header -->
 
   <div class="thread-page-header">
 
@@ -147,94 +147,152 @@ function createThread(){
 
   const avatar = localStorage.getItem('profileAvatar') || 'icon.jpg';
 
-  const threadHTML = `
+  const thread = {
 
-  <div class="thread-post">
+    id:Date.now(),
 
-    <!-- User -->
+    title,
 
-    <div class="thread-user">
+    message,
 
-      <img src="${avatar}" class="thread-avatar">
+    username,
 
-      <h3>
-        ${username}
-      </h3>
+    avatar,
 
-      <div class="thread-user-stats">
+    date:'Just now',
 
-        <p>
-          Joined: 2026
-        </p>
+    likes:0
 
-        <p>
-          Messages: 1
-        </p>
+  };
 
-        <p>
-          Reputation: 0
-        </p>
+  let threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
 
-      </div>
+  threads.unshift(thread);
 
-      <div class="online-badge">
-        Online
-      </div>
+  localStorage.setItem('forumThreads', JSON.stringify(threads));
 
-    </div>
-
-    <!-- Content -->
-
-    <div class="thread-content">
-
-      <div class="thread-date">
-        Just now
-      </div>
-
-      <h2 style="margin-bottom:20px;">
-
-        <a
-          href="thread.html"
-          style="color:#ff4f8b;text-decoration:none;"
-        >
-          ${title}
-        </a>
-
-      </h2>
-
-      <div class="thread-message">
-
-        ${message}
-
-      </div>
-
-      <div class="thread-actions">
-
-        <button>
-          👍 Like
-        </button>
-
-        <button>
-          💬 Reply
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  `;
-
-  document.getElementById('threadsContainer').innerHTML =
-  threadHTML +
-  document.getElementById('threadsContainer').innerHTML;
+  renderThreads();
 
   document.getElementById('threadTitleInput').value = '';
 
   document.getElementById('threadMessageInput').value = '';
 
 }
+
+/* Render Threads */
+
+function renderThreads(){
+
+  const container = document.getElementById('threadsContainer');
+
+  const threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
+
+  container.innerHTML = '';
+
+  threads.forEach(thread => {
+
+    container.innerHTML += `
+
+    <div class="thread-post">
+
+      <!-- User -->
+
+      <div class="thread-user">
+
+        <img src="${thread.avatar}" class="thread-avatar">
+
+        <h3>
+          ${thread.username}
+        </h3>
+
+        <div class="thread-user-stats">
+
+          <p>
+            Joined: 2026
+          </p>
+
+          <p>
+            Member
+          </p>
+
+        </div>
+
+        <div class="online-badge">
+          Online
+        </div>
+
+      </div>
+
+      <!-- Content -->
+
+      <div class="thread-content">
+
+        <div class="thread-date">
+          ${thread.date}
+        </div>
+
+        <h2 style="margin-bottom:20px;">
+
+          <a
+            href="thread.html?id=${thread.id}"
+            style="color:#ff4f8b;text-decoration:none;"
+          >
+            ${thread.title}
+          </a>
+
+        </h2>
+
+        <div class="thread-message">
+
+          ${thread.message}
+
+        </div>
+
+        <div class="thread-actions">
+
+          <button onclick="likeThread(${thread.id})">
+            👍 Like (${thread.likes})
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    `;
+
+  });
+
+}
+
+/* Like Thread */
+
+function likeThread(id){
+
+  let threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
+
+  threads = threads.map(thread => {
+
+    if(thread.id === id){
+
+      thread.likes++;
+
+    }
+
+    return thread;
+
+  });
+
+  localStorage.setItem('forumThreads', JSON.stringify(threads));
+
+  renderThreads();
+
+}
+
+/* Load Threads */
+
+renderThreads();
 
 /* Load Avatar */
 
