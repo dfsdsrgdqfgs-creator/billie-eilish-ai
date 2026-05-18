@@ -46,6 +46,26 @@ async function uploadFile() {
 
 }
 
+async function deletePost(id) {
+
+  const password = document.getElementById('adminPassword').value;
+
+  if (password !== ADMIN_PASSWORD) {
+
+    alert('Wrong admin password');
+
+    return;
+
+  }
+
+  await fetch('/delete/' + id, {
+    method: 'DELETE'
+  });
+
+  loadPosts();
+
+}
+
 async function loadPosts() {
 
   const response = await fetch('/posts');
@@ -81,6 +101,16 @@ async function loadPosts() {
       card.appendChild(img);
 
     }
+
+    const deleteBtn = document.createElement('button');
+
+    deleteBtn.innerText = 'Delete';
+
+    deleteBtn.className = 'delete-btn';
+
+    deleteBtn.onclick = () => deletePost(post._id);
+
+    card.appendChild(deleteBtn);
 
     gallery.appendChild(card);
 
