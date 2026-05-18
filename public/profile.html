@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profile</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+    He Gallery
+  </div>
+
+  <nav>
+
+    <a href="index.html">🏠 Home</a>
+
+    <a href="forum.html">💬 Forum</a>
+
+  </nav>
+
+</aside>
+
+<!-- Main -->
+
+<main class="main">
+
+  <!-- Profile Banner -->
+
+  <div class="profile-banner">
+
+    <img src="banner.jpg" class="profile-banner-img">
+
+    <div class="profile-content">
+
+      <!-- Avatar -->
+
+      <img src="icon.jpg" class="profile-avatar">
+
+      <!-- User Info -->
+
+      <div class="profile-info">
+
+        <h1 id="profileUsername">
+          Guest
+        </h1>
+
+        <p>
+          Joined: 2026
+        </p>
+
+        <p>
+          Last seen: Online now
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Stats -->
+
+  <div class="profile-stats">
+
+    <div class="stat-box">
+
+      <h3>
+        Messages
+      </h3>
+
+      <p>
+        0
+      </p>
+
+    </div>
+
+    <div class="stat-box">
+
+      <h3>
+        Reactions
+      </h3>
+
+      <p>
+        0
+      </p>
+
+    </div>
+
+    <div class="stat-box">
+
+      <h3>
+        Points
+      </h3>
+
+      <p>
+        0
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Tabs -->
+
+  <div class="profile-tabs">
+
+    <button>
+      Profile posts
+    </button>
+
+    <button>
+      About
+    </button>
+
+    <button>
+      Awards
+    </button>
+
+    <button>
+      Ratings
+    </button>
+
+  </div>
+
+</main>
+
+<script>
+
+/* Load Username */
+
+async function loadProfile(){
+
+  const response = await fetch('/me');
+
+  const data = await response.json();
+
+  if(data.loggedIn){
+
+    document.getElementById('profileUsername').innerText = data.username;
+
+  }
+
+}
+
+loadProfile();
+
+</script>
+
+</body>
+</html>
