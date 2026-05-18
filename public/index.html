@@ -1,580 +1,290 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
+<!-- Real Forum -->
 
-<meta charset="UTF-8">
+<section class="real-forum">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Top Tabs -->
 
-<title>He Gallery</title>
+  <div class="forum-top-tabs">
 
-<link rel="stylesheet" href="style.css">
-
-</head>
-
-<body>
-
-<!-- Sidebar -->
-
-<aside class="sidebar">
-
-  <div class="logo">
-    He Gallery
-  </div>
-
-  <!-- Dark Mode -->
-
-  <button id="themeToggle" class="theme-btn">
-    🌙 Dark Mode
-  </button>
-
-  <!-- Navigation -->
-
-  <nav>
-
-    <a href="index.html">🏠 Home</a>
-
-    <a href="#">🔥 Trending</a>
-
-    <a href="#">⭐ Creators</a>
-
-    <a href="forum.html">💬 Forum</a>
-
-  </nav>
-
-  <!-- Auth Buttons -->
-
-  <div class="auth-buttons" id="authButtons">
-
-    <button class="login-btn" onclick="openLogin()">
-      Log In
+    <button class="active-tab">
+      🏠 General
     </button>
 
-    <button class="signup-btn" onclick="openRegister()">
-      Sign Up
+    <button>
+      📁 Leaks
+    </button>
+
+    <button>
+      🛠 Hacking
+    </button>
+
+    <button>
+      🔒 Cracking
+    </button>
+
+    <button>
+      💻 Tech
+    </button>
+
+    <button>
+      🛒 Marketplace
+    </button>
+
+    <button>
+      💎 Premium
+    </button>
+
+    <button>
+      ⚙ Staff
     </button>
 
   </div>
 
-</aside>
+  <!-- Section Header -->
 
-<!-- Top User Bar -->
+  <div class="real-forum-header">
 
-<div class="top-user-bar">
-
-  <div class="user-icons">
-
-    <span>✉️</span>
-
-    <span>🔔</span>
+    Home
 
   </div>
 
-  <div class="user-profile" onclick="toggleUserMenu()">
+  <!-- Forum Item -->
 
-    <img src="icon.jpg" class="user-avatar">
+  <div class="real-forum-item">
 
-    <span id="loggedUsername">
-      Guest
-    </span>
+    <div class="real-forum-icon">
+      📢
+    </div>
 
-    <!-- Dropdown -->
+    <div class="real-forum-info">
 
-    <div class="user-dropdown" id="userDropdown">
+      <h2>
 
-      <a href="profile.html">
-        👤 Your account
-      </a>
+        <a href="forum.html">
 
-      <a href="#">
-        ⚙️ Preferences
-      </a>
+          Announcements
 
-      <a href="#" onclick="logoutUser()">
-        🚪 Logout
-      </a>
+        </a>
+
+      </h2>
+
+      <p>
+        Check here for news and updates regarding the forums.
+      </p>
+
+    </div>
+
+    <div class="real-forum-users">
+
+      (11 users browsing)
 
     </div>
 
   </div>
 
-</div>
+  <!-- Forum Item -->
 
-<!-- Main -->
+  <div class="real-forum-item">
 
-<main class="main">
-
-  <section class="forum-wrapper">
-
-    <div class="forum-header">
-      Home
+    <div class="real-forum-icon">
+      🪪
     </div>
 
-    <!-- Category -->
+    <div class="real-forum-info">
 
-    <div class="forum-category">
+      <h2>
 
-      <div class="forum-icon">
-        💬
-      </div>
+        <a href="forum.html">
 
-      <div class="forum-info">
+          Introductions
 
-        <h2>
-          <a href="forum.html">
-            Announcements
-          </a>
-        </h2>
+        </a>
 
-      </div>
+      </h2>
+
+      <p>
+        Introduce yourself and welcome new members.
+      </p>
 
     </div>
 
-    <!-- Category -->
+    <div class="real-forum-users">
 
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Comments & Feedbacks
-          </a>
-        </h2>
-
-      </div>
+      (8 users browsing)
 
     </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Applications Rank/Award
-          </a>
-        </h2>
-
-        <p>
-          Sub-forums
-        </p>
-
-      </div>
-
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Technical Support
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- Header -->
-
-    <div class="forum-header">
-      Community
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            General Discussion
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Hello World!
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            International - No English
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Technology & Finance News
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- Category -->
-
-    <div class="forum-category">
-
-      <div class="forum-icon">
-        💬
-      </div>
-
-      <div class="forum-info">
-
-        <h2>
-          <a href="forum.html">
-            Comedy
-          </a>
-        </h2>
-
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- Online Members -->
-
-  <section class="online-members">
-
-    <h2>
-      Members recently online
-    </h2>
-
-    <div id="onlineUsersList">
-
-      <span class="online-user">
-        Guest
-      </span>
-
-    </div>
-
-  </section>
-
-</main>
-
-<!-- Login Modal -->
-
-<div id="loginModal" class="modal">
-
-  <div class="modal-box">
-
-    <span class="close-btn" onclick="closeLogin()">
-      ×
-    </span>
-
-    <h2>
-      Log In
-    </h2>
-
-    <input type="email" id="loginEmail" placeholder="Email">
-
-    <input type="password" id="loginPassword" placeholder="Password">
-
-    <button class="modal-button" onclick="loginUser()">
-      Log In
-    </button>
 
   </div>
 
-</div>
+  <!-- Forum Item -->
 
-<!-- Register Modal -->
+  <div class="real-forum-item">
 
-<div id="registerModal" class="modal">
+    <div class="real-forum-icon">
+      💡
+    </div>
 
-  <div class="modal-box">
+    <div class="real-forum-info">
 
-    <span class="close-btn" onclick="closeRegister()">
-      ×
-    </span>
+      <h2>
 
-    <h2>
-      Register
-    </h2>
+        <a href="forum.html">
 
-    <input type="text" id="registerUsername" placeholder="Username">
+          Support & Suggestions
 
-    <input type="email" id="registerEmail" placeholder="Email">
+        </a>
 
-    <input type="password" id="registerPassword" placeholder="Password">
+      </h2>
 
-    <button class="modal-button" onclick="registerUser()">
-      Register
-    </button>
+      <p>
+        Suggest features or report forum bugs.
+      </p>
+
+    </div>
+
+    <div class="real-forum-users">
+
+      (4 users browsing)
+
+    </div>
 
   </div>
 
-</div>
+  <!-- Forum Item -->
 
-<script>
+  <div class="real-forum-item">
 
-/* Login Modal */
+    <div class="real-forum-icon">
+      🌍
+    </div>
 
-function openLogin(){
+    <div class="real-forum-info">
 
-  document.getElementById('loginModal').style.display='flex';
+      <h2>
 
-}
+        <a href="forum.html">
 
-function closeLogin(){
+          World News
 
-  document.getElementById('loginModal').style.display='none';
+        </a>
 
-}
+      </h2>
 
-/* Register Modal */
+      <p>
+        Discuss what's going on in the world.
+      </p>
 
-function openRegister(){
+    </div>
 
-  document.getElementById('registerModal').style.display='flex';
+    <div class="real-forum-users">
 
-}
+      (2 users browsing)
 
-function closeRegister(){
+    </div>
 
-  document.getElementById('registerModal').style.display='none';
+  </div>
 
-}
+  <!-- Forum Item -->
 
-/* User Dropdown */
+  <div class="real-forum-item">
 
-function toggleUserMenu(){
+    <div class="real-forum-icon">
+      💬
+    </div>
 
-  const menu = document.getElementById('userDropdown');
+    <div class="real-forum-info">
 
-  if(menu.style.display === 'block'){
+      <h2>
 
-    menu.style.display = 'none';
+        <a href="forum.html">
 
-  }else{
+          The Lounge
 
-    menu.style.display = 'block';
+        </a>
 
-  }
+      </h2>
 
-}
+      <p>
+        Talk casually about various topics.
+      </p>
 
-/* Dark Mode */
+    </div>
 
-const themeToggle = document.getElementById('themeToggle');
+    <div class="real-forum-users">
 
-themeToggle.addEventListener('click', () => {
+      (10 users browsing)
 
-  document.body.classList.toggle('light-mode');
+    </div>
 
-});
+  </div>
 
-/* Online Users */
+  <!-- Forum Item -->
 
-function addOnlineUser(username){
+  <div class="real-forum-item">
 
-  const list = document.getElementById('onlineUsersList');
+    <div class="real-forum-icon">
+      🎁
+    </div>
 
-  list.innerHTML = `
-  
-    <span class="online-user">
-      🟢 ${username}
-    </span>
+    <div class="real-forum-info">
 
-  `;
+      <h2>
 
-}
+        <a href="forum.html">
 
-/* Register */
+          Freebies & Courses
 
-async function registerUser(){
+        </a>
 
-  const username = document.getElementById('registerUsername').value;
+      </h2>
 
-  const email = document.getElementById('registerEmail').value;
+      <p>
+        Free services, giveaways and courses.
+      </p>
 
-  const password = document.getElementById('registerPassword').value;
+    </div>
 
-  const response = await fetch('/register',{
+    <div class="real-forum-users">
 
-    method:'POST',
+      (20 users browsing)
 
-    headers:{
-      'Content-Type':'application/json'
-    },
+    </div>
 
-    body:JSON.stringify({
+  </div>
 
-      username,
-      email,
-      password
+  <!-- Forum Item -->
 
-    })
+  <div class="real-forum-item">
 
-  });
+    <div class="real-forum-icon">
+      📚
+    </div>
 
-  const data = await response.json();
+    <div class="real-forum-info">
 
-  alert(data.message);
+      <h2>
 
-  if(data.success){
+        <a href="forum.html">
 
-    document.getElementById('loggedUsername').innerText = data.username;
+          Tutorials
 
-    document.getElementById('authButtons').style.display = 'none';
+        </a>
 
-    addOnlineUser(data.username);
+      </h2>
 
-    closeRegister();
+      <p>
+        Tutorials about hacking and programming.
+      </p>
 
-  }
+    </div>
 
-}
+    <div class="real-forum-users">
 
-/* Login */
+      (18 users browsing)
 
-async function loginUser(){
+    </div>
 
-  const email = document.getElementById('loginEmail').value;
+  </div>
 
-  const password = document.getElementById('loginPassword').value;
-
-  const response = await fetch('/login',{
-
-    method:'POST',
-
-    headers:{
-      'Content-Type':'application/json'
-    },
-
-    body:JSON.stringify({
-
-      email,
-      password
-
-    })
-
-  });
-
-  const data = await response.json();
-
-  if(data.success){
-
-    document.getElementById('loggedUsername').innerText = data.username;
-
-    document.getElementById('authButtons').style.display = 'none';
-
-    addOnlineUser(data.username);
-
-    closeLogin();
-
-  }else{
-
-    alert(data.message);
-
-  }
-
-}
-
-/* Check Saved Login */
-
-async function checkLogin(){
-
-  const response = await fetch('/me');
-
-  const data = await response.json();
-
-  if(data.loggedIn){
-
-    document.getElementById('loggedUsername').innerText = data.username;
-
-    document.getElementById('authButtons').style.display = 'none';
-
-    addOnlineUser(data.username);
-
-  }
-
-}
-
-checkLogin();
-
-/* Logout */
-
-async function logoutUser(){
-
-  await fetch('/logout');
-
-  location.reload();
-
-}
-
-</script>
-
-</body>
-</html>
+</section>
