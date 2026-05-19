@@ -1,579 +1,257 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const session = require('express-session');
-const bcrypt = require('bcryptjs');
-const path = require('path');
+// server.js
+const express = require("express");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
 
-/* =========================
-   MIDDLEWARE
-========================= */
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use(express.json());
+app.use(
+  session({
+    secret: "forum_secret_key",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
 
-app.use(express.urlencoded({ extended:true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.static(path.join(__dirname,'public')));
+const users = [];
 
-app.use(session({
+const sections = [
+  { id: 1, name: "General Discussion" },
+  { id: 2, name: "Games" },
+  { id: 3, name: "Technology" },
+  { id: 4, name: "Movies" },
+];
 
-  secret:'forumsecretkey',
+app.post("/register", (req, res) => {
+  const { username, password } = req.body;
 
-  resave:false,
+  const exists = users.find((u) => u.username === username);
 
-  saveUninitialized:false
-
-}));
-
-/* =========================
-   MONGODB
-========================= */
-
-mongoose.connect(process.env.MONGODB_URI)
-
-.then(() => {
-
-  console.log('MongoDB Connected');
-
-})
-
-.catch(err => {
-
-  console.log(err);
-
-});
-
-/* =========================
-   USER SCHEMA
-========================= */
-
-const userSchema = new mongoose.Schema({
-
-  username:String,
-
-  email:String,
-
-  password:String,
-
-  avatar:{
-    type:String,
-    default:'icon.jpg'
-  },
-
-  joined:{
-    type:Date,
-    default:Date.now
+  if (exists) {
+    return res.json({
+      success: false,
+      message: "Username already exists",
+    });
   }
 
-});
-
-const User = mongoose.model('ForumUser', userSchema);
-
-/* =========================
-   THREAD SCHEMA
-========================= */
-
-const threadSchema = new mongoose.Schema({
-
-  title:String,
-
-  content:String,
-
-  category:String,
-
-  username:String,
-
-  avatar:String,
-
-  likes:{
-    type:Number,
-    default:0
-  },
-
-  createdAt:{
-    type:Date,
-    default:Date.now
-  }
-
-});
-
-const Thread = mongoose.model('ForumThread', threadSchema);
-
-/* =========================
-   REPLY SCHEMA
-========================= */
-
-const replySchema = new mongoose.Schema({
-
-  threadId:String,
-
-  username:String,
-
-  avatar:String,
-
-  message:String,
-
-  createdAt:{
-    type:Date,
-    default:Date.now
-  }
-
-});
-
-const Reply = mongoose.model('ForumReply', replySchema);
-
-/* =========================
-   REGISTER
-========================= */
-
-app.post('/register', async (req,res) => {
-
-  try{
-
-    const { username,email,password } = req.body;
-
-    const exists = await User.findOne({ email });
-
-    if(exists){
-
-      return res.json({
-
-        success:false,
-
-        message:'Email already exists'
-
-      });
-
-    }
-
-    const hashedPassword =
-    await bcrypt.hash(password,10);
-
-    const user = new User({
-
-      username,
-
-      email,
-
-      password:hashedPassword
-
-    });
-
-    await user.save();
-
-    req.session.user = {
-
-      id:user._id,
-
-      username:user.username,
-
-      avatar:user.avatar
-
-    };
-
-    res.json({
-
-      success:true
-
-    });
-
-  }catch(err){
-
-    res.json({
-
-      success:false,
-
-      message:err.message
-
-    });
-
-  }
-
-});
-
-/* =========================
-   LOGIN
-========================= */
-
-app.post('/login', async (req,res) => {
-
-  try{
-
-    const { email,password } = req.body;
-
-    const user = await User.findOne({ email });
-
-    if(!user){
-
-      return res.json({
-
-        success:false,
-
-        message:'User not found'
-
-      });
-
-    }
-
-    const valid =
-    await bcrypt.compare(password,user.password);
-
-    if(!valid){
-
-      return res.json({
-
-        success:false,
-
-        message:'Wrong password'
-
-      });
-
-    }
-
-    req.session.user = {
-
-      id:user._id,
-
-      username:user.username,
-
-      avatar:user.avatar
-
-    };
-
-    res.json({
-
-      success:true
-
-    });
-
-  }catch(err){
-
-    res.json({
-
-      success:false,
-
-      message:err.message
-
-    });
-
-  }
-
-});
-
-/* =========================
-   GET CURRENT USER
-========================= */
-
-app.get('/me',(req,res) => {
-
-  if(req.session.user){
-
-    res.json({
-
-      loggedIn:true,
-
-      user:req.session.user
-
-    });
-
-  }else{
-
-    res.json({
-
-      loggedIn:false
-
-    });
-
-  }
-
-});
-
-/* =========================
-   LOGOUT
-========================= */
-
-app.get('/logout',(req,res) => {
-
-  req.session.destroy(() => {
-
-    res.redirect('/');
-
+  users.push({
+    username,
+    password,
   });
 
-});
-
-/* =========================
-   CREATE THREAD
-========================= */
-
-app.post('/create-thread', async (req,res) => {
-
-  try{
-
-    if(!req.session.user){
-
-      return res.json({
-
-        success:false,
-
-        message:'Login required'
-
-      });
-
-    }
-
-    const thread = new Thread({
-
-      title:req.body.title,
-
-      content:req.body.content,
-
-      category:req.body.category,
-
-      username:req.session.user.username,
-
-      avatar:req.session.user.avatar
-
-    });
-
-    await thread.save();
-
-    res.json({
-
-      success:true
-
-    });
-
-  }catch(err){
-
-    res.json({
-
-      success:false,
-
-      message:err.message
-
-    });
-
-  }
-
-});
-
-/* =========================
-   GET THREADS
-========================= */
-
-app.get('/threads', async (req,res) => {
-
-  const threads =
-  await Thread.find()
-
-  .sort({ createdAt:-1 });
-
-  res.json(threads);
-
-});
-
-/* =========================
-   CREATE REPLY
-========================= */
-
-app.post('/reply', async (req,res) => {
-
-  try{
-
-    if(!req.session.user){
-
-      return res.json({
-
-        success:false,
-
-        message:'Login required'
-
-      });
-
-    }
-
-    const reply = new Reply({
-
-      threadId:req.body.threadId,
-
-      username:req.session.user.username,
-
-      avatar:req.session.user.avatar,
-
-      message:req.body.message
-
-    });
-
-    await reply.save();
-
-    res.json({
-
-      success:true
-
-    });
-
-  }catch(err){
-
-    res.json({
-
-      success:false,
-
-      message:err.message
-
-    });
-
-  }
-
-});
-
-/* =========================
-   GET REPLIES
-========================= */
-
-app.get('/replies/:threadId', async (req,res) => {
-
-  const replies =
-  await Reply.find({
-
-    threadId:req.params.threadId
-
-  })
-
-  .sort({ createdAt:1 });
-
-  res.json(replies);
-
-});
-
-/* =========================
-   LIKE THREAD
-========================= */
-
-app.post('/like-thread/:id', async (req,res) => {
-
-  try{
-
-    const thread =
-    await Thread.findById(req.params.id);
-
-    if(!thread){
-
-      return res.json({
-
-        success:false
-
-      });
-
-    }
-
-    thread.likes += 1;
-
-    await thread.save();
-
-    res.json({
-
-      success:true,
-
-      likes:thread.likes
-
-    });
-
-  }catch(err){
-
-    res.json({
-
-      success:false
-
-    });
-
-  }
-
-});
-
-/* =========================
-   USERS COUNT
-========================= */
-
-app.get('/stats', async (req,res) => {
-
-  const users =
-  await User.countDocuments();
-
-  const threads =
-  await Thread.countDocuments();
-
-  const replies =
-  await Reply.countDocuments();
+  req.session.user = {
+    username,
+  };
 
   res.json({
-
-    users,
-    threads,
-    replies
-
+    success: true,
   });
-
 });
 
-/* =========================
-   ROUTES
-========================= */
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
 
-app.get('/',(req,res) => {
-
-  res.sendFile(
-
-    path.join(__dirname,'public/index.html')
-
+  const user = users.find(
+    (u) =>
+      u.username === username &&
+      u.password === password
   );
 
+  if (!user) {
+    return res.json({
+      success: false,
+      message: "Invalid username or password",
+    });
+  }
+
+  req.session.user = {
+    username: user.username,
+  };
+
+  res.json({
+    success: true,
+  });
 });
 
-app.get('/forum',(req,res) => {
-
-  res.sendFile(
-
-    path.join(__dirname,'public/forum.html')
-
-  );
-
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
-app.get('/profile',(req,res) => {
+app.get("/profile", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
 
-  res.sendFile(
+  res.send(`
+    <html>
+    <head>
+      <title>Profile</title>
+      <style>
+        body{
+          background:#111;
+          color:white;
+          font-family:Arial;
+          padding:40px;
+        }
 
-    path.join(__dirname,'public/profile.html')
+        .box{
+          background:#1c1c1c;
+          padding:30px;
+          border-radius:15px;
+          width:300px;
+        }
 
-  );
+        a{
+          color:#4da6ff;
+          text-decoration:none;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        <h1>Profile</h1>
+        <p>Username: ${req.session.user.username}</p>
 
+        <br>
+
+        <a href="/sections">Enter Sections</a>
+
+        <br><br>
+
+        <a href="/logout">Logout</a>
+      </div>
+    </body>
+    </html>
+  `);
 });
 
-app.get('/admin',(req,res) => {
+app.get("/sections", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
 
-  res.sendFile(
+  const html = sections
+    .map(
+      (s) => `
+      <div class="card">
+        <h2>${s.name}</h2>
+        <a href="/section/${s.id}">
+          Open Section
+        </a>
+      </div>
+    `
+    )
+    .join("");
 
-    path.join(__dirname,'public/admin.html')
+  res.send(`
+    <html>
+    <head>
+      <title>Sections</title>
 
-  );
+      <style>
+        body{
+          background:#0f0f0f;
+          color:white;
+          font-family:Arial;
+          padding:30px;
+        }
 
+        .card{
+          background:#1c1c1c;
+          padding:20px;
+          border-radius:15px;
+          margin-bottom:20px;
+        }
+
+        a{
+          color:#4da6ff;
+          text-decoration:none;
+        }
+      </style>
+    </head>
+
+    <body>
+      <h1>Forum Sections</h1>
+
+      ${html}
+
+      <br>
+
+      <a href="/profile">
+        Back Profile
+      </a>
+    </body>
+    </html>
+  `);
 });
 
-/* =========================
-   START SERVER
-========================= */
+app.get("/section/:id", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
 
-const PORT =
-process.env.PORT || 3000;
-
-app.listen(PORT,() => {
-
-  console.log(
-
-    'Server running on port ' + PORT
-
+  const section = sections.find(
+    (s) => s.id == req.params.id
   );
 
+  if (!section) {
+    return res.send("Section Not Found");
+  }
+
+  res.send(`
+    <html>
+    <head>
+      <title>${section.name}</title>
+
+      <style>
+        body{
+          background:#111;
+          color:white;
+          font-family:Arial;
+          padding:40px;
+        }
+
+        .box{
+          background:#1c1c1c;
+          padding:25px;
+          border-radius:15px;
+        }
+
+        a{
+          color:#4da6ff;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="box">
+        <h1>${section.name}</h1>
+
+        <p>
+          Welcome to this section.
+        </p>
+
+        <a href="/sections">
+          Back Sections
+        </a>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
 });
