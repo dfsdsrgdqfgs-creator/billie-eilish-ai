@@ -9,7 +9,7 @@
 
 <title>TNForums</title>
 
-<link rel="stylesheet" href="/style.css?v=7">
+<link rel="stylesheet" href="/style.css?v=10">
 
 </head>
 
@@ -49,11 +49,74 @@
 
   <!-- USER -->
 
-  <div class="top-right user-box" id="userBox" style="display:none;">
+  <div class="top-right user-box" id="userBox" style="display:none; position:relative;">
 
-    <span id="topUsername"></span>
+    <span id="topUsername">
+      Admin
+    </span>
 
-    <img src="icon.jpg" class="user-avatar" id="topAvatar">
+    <img
+      src="icon.jpg"
+      class="user-avatar"
+      id="topAvatar"
+      onclick="toggleProfileMenu()"
+    >
+
+    <!-- PROFILE MENU -->
+
+    <div class="profile-dropdown" id="profileDropdown">
+
+      <div class="profile-header">
+
+        <img src="icon.jpg" class="dropdown-avatar">
+
+        <div>
+
+          <h3 id="dropdownUsername">
+            Admin
+          </h3>
+
+          <p>
+            Trophy points: 0
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="profile-links">
+
+        <a href="profile.html">
+          👤 Your account
+        </a>
+
+        <a href="#">
+          💬 Your content
+        </a>
+
+        <a href="#">
+          👍 Reactions received
+        </a>
+
+        <a href="#">
+          ⚙ Preferences
+        </a>
+
+        <a href="#">
+          🔒 Password and security
+        </a>
+
+        <a href="#">
+          🛡 Privacy
+        </a>
+
+        <a href="/logout">
+          🚪 Logout
+        </a>
+
+      </div>
+
+    </div>
 
   </div>
 
@@ -434,11 +497,50 @@ async function loadUser(){
     document.getElementById('topUsername').innerText =
     data.username;
 
+    document.getElementById('dropdownUsername').innerText =
+    data.username;
+
   }
 
 }
 
 loadUser();
+
+/* PROFILE MENU */
+
+function toggleProfileMenu(){
+
+  const menu =
+  document.getElementById('profileDropdown');
+
+  if(menu.style.display === 'block'){
+
+    menu.style.display = 'none';
+
+  }else{
+
+    menu.style.display = 'block';
+
+  }
+
+}
+
+window.onclick = function(event){
+
+  if(!event.target.matches('.user-avatar')){
+
+    const dropdown =
+    document.getElementById('profileDropdown');
+
+    if(dropdown){
+
+      dropdown.style.display = 'none';
+
+    }
+
+  }
+
+}
 
 </script>
 
