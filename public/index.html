@@ -1,549 +1,351 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- REAL FORUM CATEGORIES -->
 
-<head>
+<section class="real-forum">
 
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TNForums</title>
-
-<link rel="stylesheet" href="/style.css?v=10">
-
-</head>
-
-<body>
-
-<!-- TOP HEADER -->
-
-<div class="top-header">
-
-  <div class="top-left">
-
-    <a href="#">🏠 Home</a>
-
-    <a href="#">🗂 Databases</a>
-
-    <a href="#">⭐ Upgrades</a>
-
-    <a href="#">🔍 Search</a>
-
-    <a href="#">🛒 Marketplace</a>
-
+  <div class="real-forum-header">
+    🏠 Main Forums
   </div>
 
-  <!-- LOGIN / REGISTER -->
+  <!-- ANNOUNCEMENTS -->
 
-  <div class="top-right" id="authButtons">
+  <div class="real-forum-item">
 
-    <button class="login-btn" onclick="showLogin()">
-      🔑 Login
-    </button>
+    <div class="real-forum-icon">
+      📢
+    </div>
 
-    <button class="register-btn" onclick="showRegister()">
-      👤 Register
-    </button>
+    <div class="real-forum-info">
 
-  </div>
-
-  <!-- USER -->
-
-  <div class="top-right user-box" id="userBox" style="display:none; position:relative;">
-
-    <span id="topUsername">
-      Admin
-    </span>
-
-    <img
-      src="icon.jpg"
-      class="user-avatar"
-      id="topAvatar"
-      onclick="toggleProfileMenu()"
-    >
-
-    <!-- PROFILE MENU -->
-
-    <div class="profile-dropdown" id="profileDropdown">
-
-      <div class="profile-header">
-
-        <img src="icon.jpg" class="dropdown-avatar">
-
-        <div>
-
-          <h3 id="dropdownUsername">
-            Admin
-          </h3>
-
-          <p>
-            Trophy points: 0
-          </p>
-
-        </div>
-
-      </div>
-
-      <div class="profile-links">
-
-        <a href="profile.html">
-          👤 Your account
+      <h2>
+        <a href="forum.html">
+          Announcements
         </a>
+      </h2>
 
-        <a href="#">
-          💬 Your content
-        </a>
+      <p>
+        Official forum news and updates.
+      </p>
 
-        <a href="#">
-          👍 Reactions received
-        </a>
+    </div>
 
-        <a href="#">
-          ⚙ Preferences
-        </a>
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-        <a href="#">
-          🔒 Password and security
-        </a>
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-        <a href="#">
-          🛡 Privacy
-        </a>
-
-        <a href="/logout">
-          🚪 Logout
-        </a>
-
-      </div>
-
+    <div class="last-post">
+      Last post by Admin
     </div>
 
   </div>
 
-</div>
+  <!-- INTRODUCTIONS -->
 
-<!-- MAIN -->
+  <div class="real-forum-item">
 
-<div class="main">
+    <div class="real-forum-icon">
+      👋
+    </div>
 
-  <!-- BANNER -->
+    <div class="real-forum-info">
 
-  <div class="banner"></div>
+      <h2>
+        <a href="forum.html">
+          Introductions
+        </a>
+      </h2>
 
-  <!-- WELCOME -->
-
-  <div class="small-box">
-
-    Welcome to TNForums
-
-  </div>
-
-  <div class="content-flex">
-
-    <!-- LEFT -->
-
-    <div class="left-side">
-
-      <!-- TABS -->
-
-      <div class="forum-top-tabs">
-
-        <button class="active-tab">
-          🏠 General
-        </button>
-
-        <button>
-          📁 Leaks
-        </button>
-
-        <button>
-          🛠 Hacking
-        </button>
-
-        <button>
-          🔒 Cracking
-        </button>
-
-        <button>
-          💻 Tech
-        </button>
-
-        <button>
-          🛒 Marketplace
-        </button>
-
-        <button>
-          💎 Premium
-        </button>
-
-      </div>
-
-      <!-- FORUM -->
-
-      <section class="real-forum">
-
-        <div class="real-forum-header">
-
-          Home
-
-        </div>
-
-        <!-- ITEM -->
-
-        <div class="real-forum-item">
-
-          <div class="real-forum-icon">
-            📢
-          </div>
-
-          <div class="real-forum-info">
-
-            <h2>
-
-              <a href="forum.html">
-                Announcements
-              </a>
-
-            </h2>
-
-            <p>
-              Check here for news and updates.
-            </p>
-
-          </div>
-
-          <div class="forum-stats">
-
-            <strong>0</strong>
-
-            THREADS
-
-          </div>
-
-          <div class="forum-stats">
-
-            <strong>0</strong>
-
-            POSTS
-
-          </div>
-
-          <div class="last-post">
-
-            Last post by Admin
-
-          </div>
-
-        </div>
-
-        <!-- ITEM -->
-
-        <div class="real-forum-item">
-
-          <div class="real-forum-icon">
-            💬
-          </div>
-
-          <div class="real-forum-info">
-
-            <h2>
-
-              <a href="forum.html">
-                General Discussion
-              </a>
-
-            </h2>
-
-            <p>
-              Talk casually with members.
-            </p>
-
-          </div>
-
-          <div class="forum-stats">
-
-            <strong>0</strong>
-
-            THREADS
-
-          </div>
-
-          <div class="forum-stats">
-
-            <strong>0</strong>
-
-            POSTS
-
-          </div>
-
-          <div class="last-post">
-
-            Last post by User
-
-          </div>
-
-        </div>
-
-      </section>
+      <p>
+        Introduce yourself to the community.
+      </p>
 
     </div>
 
-    <!-- RIGHT -->
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-    <div class="side-block">
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-      <div class="side-block-header">
-
-        💬 Latest Posts
-
-      </div>
-
-      <div class="side-block-content">
-
-        General Discussion
-
-      </div>
-
+    <div class="last-post">
+      No posts yet
     </div>
 
   </div>
 
-</div>
+  <!-- GENERAL DISCUSSION -->
 
-<!-- LOGIN MODAL -->
+  <div class="real-forum-item">
 
-<div class="modal" id="loginModal">
+    <div class="real-forum-icon">
+      💬
+    </div>
 
-  <div class="modal-box">
+    <div class="real-forum-info">
 
-    <span class="close-btn" onclick="closeLogin()">
-      ×
-    </span>
+      <h2>
+        <a href="forum.html">
+          General Discussion
+        </a>
+      </h2>
 
-    <h2>
-      Login
-    </h2>
+      <p>
+        Talk casually with members.
+      </p>
 
-    <input type="email" id="loginEmail" placeholder="Email">
+    </div>
 
-    <input type="password" id="loginPassword" placeholder="Password">
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-    <button class="modal-button" onclick="login()">
-      Login
-    </button>
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-  </div>
-
-</div>
-
-<!-- REGISTER MODAL -->
-
-<div class="modal" id="registerModal">
-
-  <div class="modal-box">
-
-    <span class="close-btn" onclick="closeRegister()">
-      ×
-    </span>
-
-    <h2>
-      Register
-    </h2>
-
-    <input type="text" id="registerUsername" placeholder="Username">
-
-    <input type="email" id="registerEmail" placeholder="Email">
-
-    <input type="password" id="registerPassword" placeholder="Password">
-
-    <button class="modal-button" onclick="register()">
-      Register
-    </button>
+    <div class="last-post">
+      No posts yet
+    </div>
 
   </div>
 
-</div>
+  <!-- TECH -->
 
-<script>
+  <div class="real-forum-item">
 
-/* LOGIN */
+    <div class="real-forum-icon">
+      💻
+    </div>
 
-function showLogin(){
+    <div class="real-forum-info">
 
-  document.getElementById('loginModal').style.display = 'flex';
+      <h2>
+        <a href="forum.html">
+          Technology
+        </a>
+      </h2>
 
-}
+      <p>
+        Tech support, hardware and software.
+      </p>
 
-function closeLogin(){
+    </div>
 
-  document.getElementById('loginModal').style.display = 'none';
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-}
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-/* REGISTER */
+    <div class="last-post">
+      No posts yet
+    </div>
 
-function showRegister(){
+  </div>
 
-  document.getElementById('registerModal').style.display = 'flex';
+  <!-- GAMING -->
 
-}
+  <div class="real-forum-item">
 
-function closeRegister(){
+    <div class="real-forum-icon">
+      🎮
+    </div>
 
-  document.getElementById('registerModal').style.display = 'none';
+    <div class="real-forum-info">
 
-}
+      <h2>
+        <a href="forum.html">
+          Gaming
+        </a>
+      </h2>
 
-/* REGISTER API */
+      <p>
+        PC, Xbox, PlayStation and mobile gaming.
+      </p>
 
-async function register(){
+    </div>
 
-  const username =
-  document.getElementById('registerUsername').value;
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-  const email =
-  document.getElementById('registerEmail').value;
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-  const password =
-  document.getElementById('registerPassword').value;
+    <div class="last-post">
+      No posts yet
+    </div>
 
-  const response = await fetch('/register',{
+  </div>
 
-    method:'POST',
+  <!-- MARKETPLACE -->
 
-    headers:{
-      'Content-Type':'application/json'
-    },
+  <div class="real-forum-item">
 
-    body:JSON.stringify({
+    <div class="real-forum-icon">
+      🛒
+    </div>
 
-      username,
-      email,
-      password
+    <div class="real-forum-info">
 
-    })
+      <h2>
+        <a href="forum.html">
+          Marketplace
+        </a>
+      </h2>
 
-  });
+      <p>
+        Buy, sell and trade safely.
+      </p>
 
-  const data = await response.json();
+    </div>
 
-  if(data.success){
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-    location.reload();
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-  }else{
+    <div class="last-post">
+      No posts yet
+    </div>
 
-    alert(data.message);
+  </div>
 
-  }
+  <!-- GRAPHICS -->
 
-}
+  <div class="real-forum-item">
 
-/* LOGIN API */
+    <div class="real-forum-icon">
+      🎨
+    </div>
 
-async function login(){
+    <div class="real-forum-info">
 
-  const email =
-  document.getElementById('loginEmail').value;
+      <h2>
+        <a href="forum.html">
+          Graphics & Design
+        </a>
+      </h2>
 
-  const password =
-  document.getElementById('loginPassword').value;
+      <p>
+        Share graphics, banners and artwork.
+      </p>
 
-  const response = await fetch('/login',{
+    </div>
 
-    method:'POST',
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-    headers:{
-      'Content-Type':'application/json'
-    },
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-    body:JSON.stringify({
+    <div class="last-post">
+      No posts yet
+    </div>
 
-      email,
-      password
+  </div>
 
-    })
+  <!-- OFF TOPIC -->
 
-  });
+  <div class="real-forum-item">
 
-  const data = await response.json();
+    <div class="real-forum-icon">
+      🍿
+    </div>
 
-  if(data.success){
+    <div class="real-forum-info">
 
-    location.reload();
+      <h2>
+        <a href="forum.html">
+          Off Topic
+        </a>
+      </h2>
 
-  }else{
+      <p>
+        Random conversations and fun topics.
+      </p>
 
-    alert(data.message);
+    </div>
 
-  }
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-}
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-/* LOAD USER */
+    <div class="last-post">
+      No posts yet
+    </div>
 
-async function loadUser(){
+  </div>
 
-  const response = await fetch('/me');
+  <!-- PREMIUM -->
 
-  const data = await response.json();
+  <div class="real-forum-item">
 
-  if(data.loggedIn){
+    <div class="real-forum-icon">
+      💎
+    </div>
 
-    document.getElementById('authButtons').style.display = 'none';
+    <div class="real-forum-info">
 
-    document.getElementById('userBox').style.display = 'flex';
+      <h2>
+        <a href="forum.html">
+          Premium Lounge
+        </a>
+      </h2>
 
-    document.getElementById('topUsername').innerText =
-    data.username;
+      <p>
+        VIP discussions for premium members.
+      </p>
 
-    document.getElementById('dropdownUsername').innerText =
-    data.username;
+    </div>
 
-  }
+    <div class="forum-stats">
+      <strong>0</strong>
+      THREADS
+    </div>
 
-}
+    <div class="forum-stats">
+      <strong>0</strong>
+      POSTS
+    </div>
 
-loadUser();
+    <div class="last-post">
+      No posts yet
+    </div>
 
-/* PROFILE MENU */
+  </div>
 
-function toggleProfileMenu(){
-
-  const menu =
-  document.getElementById('profileDropdown');
-
-  if(menu.style.display === 'block'){
-
-    menu.style.display = 'none';
-
-  }else{
-
-    menu.style.display = 'block';
-
-  }
-
-}
-
-window.onclick = function(event){
-
-  if(!event.target.matches('.user-avatar')){
-
-    const dropdown =
-    document.getElementById('profileDropdown');
-
-    if(dropdown){
-
-      dropdown.style.display = 'none';
-
-    }
-
-  }
-
-}
-
-</script>
-
-</body>
-
-</html>
+</section>
