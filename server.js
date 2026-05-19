@@ -1,4 +1,5 @@
 // server.js
+
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
@@ -26,16 +27,49 @@ app.use(express.static(path.join(__dirname, "public")));
 const users = [];
 
 const sections = [
-  { id: 1, name: "General Discussion" },
-  { id: 2, name: "Games" },
-  { id: 3, name: "Technology" },
-  { id: 4, name: "Movies" },
+  {
+    id: 1,
+    title: "General Discussion",
+    description: "Talk about anything here",
+  },
+  {
+    id: 2,
+    title: "Games",
+    description: "Gaming section",
+  },
+  {
+    id: 3,
+    title: "Technology",
+    description: "Technology news",
+  },
+  {
+    id: 4,
+    title: "Movies",
+    description: "Movies and series",
+  },
 ];
+
+function auth(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect("/");
+  }
+
+  next();
+}
 
 app.post("/register", (req, res) => {
   const { username, password } = req.body;
 
-  const exists = users.find((u) => u.username === username);
+  if (!username || !password) {
+    return res.json({
+      success: false,
+      message: "Fill all fields",
+    });
+  }
+
+  const exists = users.find(
+    (u) => u.username === username
+  );
 
   if (exists) {
     return res.json({
@@ -70,7 +104,7 @@ app.post("/login", (req, res) => {
   if (!user) {
     return res.json({
       success: false,
-      message: "Invalid username or password",
+      message: "Wrong username or password",
     });
   }
 
@@ -83,72 +117,84 @@ app.post("/login", (req, res) => {
   });
 });
 
-app.get("/logout", (req, res) => {
+app.get("/logout", auth, (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
   });
 });
 
-app.get("/profile", (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/");
-  }
-
+app.get("/profile", auth, (req, res) => {
   res.send(`
-    <html>
-    <head>
-      <title>Profile</title>
-      <style>
-        body{
-          background:#111;
-          color:white;
-          font-family:Arial;
-          padding:40px;
-        }
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Profile</title>
 
-        .box{
-          background:#1c1c1c;
-          padding:30px;
-          border-radius:15px;
-          width:300px;
-        }
+    <style>
+      body{
+        background:#0f0f0f;
+        color:white;
+        font-family:Arial;
+        padding:40px;
+      }
 
-        a{
-          color:#4da6ff;
-          text-decoration:none;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="box">
-        <h1>Profile</h1>
-        <p>Username: ${req.session.user.username}</p>
+      .box{
+        background:#1c1c1c;
+        padding:30px;
+        border-radius:20px;
+        max-width:500px;
+      }
 
-        <br>
+      a{
+        color:#4da6ff;
+        text-decoration:none;
+      }
 
-        <a href="/sections">Enter Sections</a>
+      .btn{
+        display:inline-block;
+        margin-top:15px;
+      }
+    </style>
+  </head>
 
-        <br><br>
+  <body>
 
-        <a href="/logout">Logout</a>
-      </div>
-    </body>
-    </html>
+    <div class="box">
+      <h1>Welcome ${
+        req.session.user.username
+      }</h1>
+
+      <p>
+        This is your profile page.
+      </p>
+
+      <a class="btn" href="/sections">
+        Open Forum Sections
+      </a>
+
+      <br><br>
+
+      <a class="btn" href="/logout">
+        Logout
+      </a>
+    </div>
+
+  </body>
+  </html>
   `);
 });
 
-app.get("/sections", (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/");
-  }
-
+app.get("/sections", auth, (req, res) => {
   const html = sections
     .map(
-      (s) => `
+      (section) => `
       <div class="card">
-        <h2>${s.name}</h2>
-        <a href="/section/${s.id}">
-          Open Section
+        <h2>${section.title}</h2>
+
+        <p>${section.description}</p>
+
+        <a href="/section/${section.id}">
+          Enter Section
         </a>
       </div>
     `
@@ -156,99 +202,107 @@ app.get("/sections", (req, res) => {
     .join("");
 
   res.send(`
-    <html>
-    <head>
-      <title>Sections</title>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Forum Sections</title>
 
-      <style>
-        body{
-          background:#0f0f0f;
-          color:white;
-          font-family:Arial;
-          padding:30px;
-        }
+    <style>
+      body{
+        background:#0f0f0f;
+        color:white;
+        font-family:Arial;
+        padding:30px;
+      }
 
-        .card{
-          background:#1c1c1c;
-          padding:20px;
-          border-radius:15px;
-          margin-bottom:20px;
-        }
+      .card{
+        background:#1c1c1c;
+        padding:20px;
+        border-radius:20px;
+        margin-bottom:20px;
+      }
 
-        a{
-          color:#4da6ff;
-          text-decoration:none;
-        }
-      </style>
-    </head>
+      a{
+        color:#4da6ff;
+        text-decoration:none;
+      }
+    </style>
+  </head>
 
-    <body>
-      <h1>Forum Sections</h1>
+  <body>
 
-      ${html}
+    <h1>Forum Sections</h1>
 
-      <br>
+    ${html}
 
-      <a href="/profile">
-        Back Profile
-      </a>
-    </body>
-    </html>
+    <br>
+
+    <a href="/profile">
+      Back To Profile
+    </a>
+
+  </body>
+  </html>
   `);
 });
 
-app.get("/section/:id", (req, res) => {
-  if (!req.session.user) {
-    return res.redirect("/");
-  }
-
+app.get("/section/:id", auth, (req, res) => {
   const section = sections.find(
     (s) => s.id == req.params.id
   );
 
   if (!section) {
-    return res.send("Section Not Found");
+    return res.send("Section not found");
   }
 
   res.send(`
-    <html>
-    <head>
-      <title>${section.name}</title>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>${section.title}</title>
 
-      <style>
-        body{
-          background:#111;
-          color:white;
-          font-family:Arial;
-          padding:40px;
-        }
+    <style>
+      body{
+        background:#0f0f0f;
+        color:white;
+        font-family:Arial;
+        padding:30px;
+      }
 
-        .box{
-          background:#1c1c1c;
-          padding:25px;
-          border-radius:15px;
-        }
+      .box{
+        background:#1c1c1c;
+        padding:25px;
+        border-radius:20px;
+      }
 
-        a{
-          color:#4da6ff;
-        }
-      </style>
-    </head>
+      a{
+        color:#4da6ff;
+      }
+    </style>
+  </head>
 
-    <body>
-      <div class="box">
-        <h1>${section.name}</h1>
+  <body>
 
-        <p>
-          Welcome to this section.
-        </p>
+    <div class="box">
 
-        <a href="/sections">
-          Back Sections
-        </a>
-      </div>
-    </body>
-    </html>
+      <h1>${section.title}</h1>
+
+      <p>
+        ${section.description}
+      </p>
+
+      <p>
+        Welcome to the section.
+      </p>
+
+      <a href="/sections">
+        Back To Sections
+      </a>
+
+    </div>
+
+  </body>
+  </html>
   `);
 });
 
