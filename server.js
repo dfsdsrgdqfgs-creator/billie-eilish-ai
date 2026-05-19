@@ -6,7 +6,9 @@ const path = require('path');
 
 const app = express();
 
-/* MIDDLEWARE */
+/* =========================
+   MIDDLEWARE
+========================= */
 
 app.use(express.json());
 
@@ -16,7 +18,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.use(session({
 
-  secret:'forumsecret',
+  secret:'forumsecretkey',
 
   resave:false,
 
@@ -24,7 +26,9 @@ app.use(session({
 
 }));
 
-/* MONGODB */
+/* =========================
+   MONGODB
+========================= */
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -40,7 +44,9 @@ mongoose.connect(process.env.MONGODB_URI)
 
 });
 
-/* USER SCHEMA */
+/* =========================
+   USER SCHEMA
+========================= */
 
 const userSchema = new mongoose.Schema({
 
@@ -53,19 +59,28 @@ const userSchema = new mongoose.Schema({
   avatar:{
     type:String,
     default:'icon.jpg'
+  },
+
+  joined:{
+    type:Date,
+    default:Date.now
   }
 
 });
 
 const User = mongoose.model('ForumUser', userSchema);
 
-/* THREAD SCHEMA */
+/* =========================
+   THREAD SCHEMA
+========================= */
 
 const threadSchema = new mongoose.Schema({
 
   title:String,
 
-  message:String,
+  content:String,
+
+  category:String,
 
   username:String,
 
@@ -83,9 +98,34 @@ const threadSchema = new mongoose.Schema({
 
 });
 
-const Thread = mongoose.model('Thread', threadSchema);
+const Thread = mongoose.model('ForumThread', threadSchema);
 
-/* REGISTER */
+/* =========================
+   REPLY SCHEMA
+========================= */
+
+const replySchema = new mongoose.Schema({
+
+  threadId:String,
+
+  username:String,
+
+  avatar:String,
+
+  message:String,
+
+  createdAt:{
+    type:Date,
+    default:Date.now
+  }
+
+});
+
+const Reply = mongoose.model('ForumReply', replySchema);
+
+/* =========================
+   REGISTER
+========================= */
 
 app.post('/register', async (req,res) => {
 
@@ -93,9 +133,9 @@ app.post('/register', async (req,res) => {
 
     const { username,email,password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const exists = await User.findOne({ email });
 
-    if(existingUser){
+    if(exists){
 
       return res.json({
 
@@ -107,7 +147,8 @@ app.post('/register', async (req,res) => {
 
     }
 
-    const hashedPassword = await bcrypt.hash(password,10);
+    const hashedPassword =
+    await bcrypt.hash(password,10);
 
     const user = new User({
 
@@ -123,9 +164,9 @@ app.post('/register', async (req,res) => {
 
     req.session.user = {
 
-      username:user.username,
+      id:user._id,
 
-      email:user.email,
+      username:user.username,
 
       avatar:user.avatar
 
@@ -151,7 +192,9 @@ app.post('/register', async (req,res) => {
 
 });
 
-/* LOGIN */
+/* =========================
+   LOGIN
+========================= */
 
 app.post('/login', async (req,res) => {
 
@@ -173,9 +216,10 @@ app.post('/login', async (req,res) => {
 
     }
 
-    const validPassword = await bcrypt.compare(password,user.password);
+    const valid =
+    await bcrypt.compare(password,user.password);
 
-    if(!validPassword){
+    if(!valid){
 
       return res.json({
 
@@ -189,9 +233,9 @@ app.post('/login', async (req,res) => {
 
     req.session.user = {
 
-      username:user.username,
+      id:user._id,
 
-      email:user.email,
+      username:user.username,
 
       avatar:user.avatar
 
@@ -217,7 +261,9 @@ app.post('/login', async (req,res) => {
 
 });
 
-/* GET USER */
+/* =========================
+   GET CURRENT USER
+========================= */
 
 app.get('/me',(req,res) => {
 
@@ -227,9 +273,7 @@ app.get('/me',(req,res) => {
 
       loggedIn:true,
 
-      username:req.session.user.username,
-
-      avatar:req.session.user.avatar
+      user:req.session.user
 
     });
 
@@ -245,7 +289,9 @@ app.get('/me',(req,res) => {
 
 });
 
-/* LOGOUT */
+/* =========================
+   LOGOUT
+========================= */
 
 app.get('/logout',(req,res) => {
 
@@ -257,21 +303,37 @@ app.get('/logout',(req,res) => {
 
 });
 
-/* CREATE THREAD */
+/* =========================
+   CREATE THREAD
+========================= */
 
 app.post('/create-thread', async (req,res) => {
 
   try{
 
+    if(!req.session.user){
+
+      return res.json({
+
+        success:false,
+
+        message:'Login required'
+
+      });
+
+    }
+
     const thread = new Thread({
 
       title:req.body.title,
 
-      message:req.body.message,
+      content:req.body.content,
 
-      username:req.body.username,
+      category:req.body.category,
 
-      avatar:req.body.avatar
+      username:req.session.user.username,
+
+      avatar:req.session.user.avatar
 
     });
 
@@ -297,11 +359,14 @@ app.post('/create-thread', async (req,res) => {
 
 });
 
-/* GET THREADS */
+/* =========================
+   GET THREADS
+========================= */
 
 app.get('/threads', async (req,res) => {
 
-  const threads = await Thread.find()
+  const threads =
+  await Thread.find()
 
   .sort({ createdAt:-1 });
 
@@ -309,20 +374,206 @@ app.get('/threads', async (req,res) => {
 
 });
 
-/* HOME */
+/* =========================
+   CREATE REPLY
+========================= */
 
-app.get('/',(req,res) => {
+app.post('/reply', async (req,res) => {
 
-  res.sendFile(path.join(__dirname,'public/index.html'));
+  try{
+
+    if(!req.session.user){
+
+      return res.json({
+
+        success:false,
+
+        message:'Login required'
+
+      });
+
+    }
+
+    const reply = new Reply({
+
+      threadId:req.body.threadId,
+
+      username:req.session.user.username,
+
+      avatar:req.session.user.avatar,
+
+      message:req.body.message
+
+    });
+
+    await reply.save();
+
+    res.json({
+
+      success:true
+
+    });
+
+  }catch(err){
+
+    res.json({
+
+      success:false,
+
+      message:err.message
+
+    });
+
+  }
 
 });
 
-/* START */
+/* =========================
+   GET REPLIES
+========================= */
 
-const PORT = process.env.PORT || 3000;
+app.get('/replies/:threadId', async (req,res) => {
+
+  const replies =
+  await Reply.find({
+
+    threadId:req.params.threadId
+
+  })
+
+  .sort({ createdAt:1 });
+
+  res.json(replies);
+
+});
+
+/* =========================
+   LIKE THREAD
+========================= */
+
+app.post('/like-thread/:id', async (req,res) => {
+
+  try{
+
+    const thread =
+    await Thread.findById(req.params.id);
+
+    if(!thread){
+
+      return res.json({
+
+        success:false
+
+      });
+
+    }
+
+    thread.likes += 1;
+
+    await thread.save();
+
+    res.json({
+
+      success:true,
+
+      likes:thread.likes
+
+    });
+
+  }catch(err){
+
+    res.json({
+
+      success:false
+
+    });
+
+  }
+
+});
+
+/* =========================
+   USERS COUNT
+========================= */
+
+app.get('/stats', async (req,res) => {
+
+  const users =
+  await User.countDocuments();
+
+  const threads =
+  await Thread.countDocuments();
+
+  const replies =
+  await Reply.countDocuments();
+
+  res.json({
+
+    users,
+    threads,
+    replies
+
+  });
+
+});
+
+/* =========================
+   ROUTES
+========================= */
+
+app.get('/',(req,res) => {
+
+  res.sendFile(
+
+    path.join(__dirname,'public/index.html')
+
+  );
+
+});
+
+app.get('/forum',(req,res) => {
+
+  res.sendFile(
+
+    path.join(__dirname,'public/forum.html')
+
+  );
+
+});
+
+app.get('/profile',(req,res) => {
+
+  res.sendFile(
+
+    path.join(__dirname,'public/profile.html')
+
+  );
+
+});
+
+app.get('/admin',(req,res) => {
+
+  res.sendFile(
+
+    path.join(__dirname,'public/admin.html')
+
+  );
+
+});
+
+/* =========================
+   START SERVER
+========================= */
+
+const PORT =
+process.env.PORT || 3000;
 
 app.listen(PORT,() => {
 
-  console.log('Server running on port ' + PORT);
+  console.log(
+
+    'Server running on port ' + PORT
+
+  );
 
 });
