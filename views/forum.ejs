@@ -1,0 +1,79 @@
+<!-- views/forum.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forum</title>
+
+<style>
+
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+padding:30px;
+}
+
+.top{
+display:flex;
+justify-content:space-between;
+margin-bottom:30px;
+}
+
+.card{
+background:#1b1b1b;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+a{
+color:#4da6ff;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+
+<h1>Forum</h1>
+
+<div>
+
+<a href="/profile">
+Profile
+</a>
+
+|
+
+<a href="/logout">
+Logout
+</a>
+
+</div>
+
+</div>
+
+<h2>Sections</h2>
+
+<% sections.forEach(section=> { %>
+
+<div class="card">
+
+<h2>
+<%= section %>
+</h2>
+
+<a href="/section/<%= section %>">
+Open Section
+</a>
+
+</div>
+
+<% }) %>
+
+</body>
+</html>
