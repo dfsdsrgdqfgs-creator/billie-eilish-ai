@@ -1,112 +1,131 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+  <title>Forum</title>
 
-<meta charset="UTF-8">
+  <style>
+    body{
+      background:#0f0f0f;
+      color:white;
+      font-family:Arial;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    .box{
+      background:#1c1c1c;
+      padding:30px;
+      border-radius:20px;
+      width:300px;
+    }
 
-<title>TNForums</title>
+    input{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border:none;
+      border-radius:10px;
+      background:#2b2b2b;
+      color:white;
+    }
 
-<link rel="stylesheet" href="/style.css?v=1">
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:15px;
+      border:none;
+      border-radius:10px;
+      background:#4da6ff;
+      color:white;
+      cursor:pointer;
+    }
 
+    #message{
+      margin-top:15px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="top-header">
+<div class="box">
+  <h1>Forum Login</h1>
 
-  <div class="top-left">
+  <input type="text" id="username" placeholder="Username">
 
-    <a href="#">🏠 Home</a>
+  <input type="password" id="password" placeholder="Password">
 
-    <a href="#">💬 Forums</a>
+  <button onclick="login()">
+    Login
+  </button>
 
-    <a href="#">⭐ Premium</a>
+  <button onclick="register()">
+    Register
+  </button>
 
-  </div>
-
-  <div class="top-right">
-
-    <button class="login-btn">
-      Login
-    </button>
-
-    <button class="register-btn">
-      Register
-    </button>
-
-  </div>
-
+  <div id="message"></div>
 </div>
 
-<div class="main">
+<script>
+async function login(){
+  const username =
+    document.getElementById("username").value;
 
-  <div class="forum-top-tabs">
+  const password =
+    document.getElementById("password").value;
 
-    <button class="active-tab">
-      General
-    </button>
+  const res = await fetch("/login",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      username,
+      password
+    })
+  });
 
-    <button>
-      Gaming
-    </button>
+  const data = await res.json();
 
-    <button>
-      Tech
-    </button>
+  if(data.success){
+    window.location="/profile";
+  }else{
+    document.getElementById("message").innerText =
+      data.message;
+  }
+}
 
-  </div>
+async function register(){
+  const username =
+    document.getElementById("username").value;
 
-  <section class="real-forum">
+  const password =
+    document.getElementById("password").value;
 
-    <div class="real-forum-header">
-      🏠 Main Forums
-    </div>
+  const res = await fetch("/register",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      username,
+      password
+    })
+  });
 
-    <div class="real-forum-item">
+  const data = await res.json();
 
-      <div class="real-forum-icon">
-        📢
-      </div>
-
-      <div class="real-forum-info">
-
-        <h2>
-          <a href="#">
-            Announcements
-          </a>
-        </h2>
-
-        <p>
-          Official forum news and updates.
-        </p>
-
-      </div>
-
-      <div class="forum-stats">
-
-        <strong>0</strong>
-
-        THREADS
-
-      </div>
-
-      <div class="forum-stats">
-
-        <strong>0</strong>
-
-        POSTS
-
-      </div>
-
-    </div>
-
-  </section>
-
-</div>
+  if(data.success){
+    window.location="/profile";
+  }else{
+    document.getElementById("message").innerText =
+      data.message;
+  }
+}
+</script>
 
 </body>
-
 </html>
