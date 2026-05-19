@@ -1,0 +1,118 @@
+<!-- views/section.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= section %></title>
+
+<style>
+
+body{
+background:#0f0f0f;
+color:white;
+font-family:Arial;
+padding:30px;
+}
+
+.box{
+background:#1b1b1b;
+padding:20px;
+border-radius:20px;
+margin-bottom:20px;
+}
+
+input,textarea,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+background:#2b2b2b;
+border:none;
+border-radius:10px;
+color:white;
+box-sizing:border-box;
+}
+
+button{
+padding:12px;
+background:#4da6ff;
+border:none;
+border-radius:10px;
+color:white;
+margin-top:10px;
+cursor:pointer;
+}
+
+a{
+color:#4da6ff;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>
+<%= section %>
+</h1>
+
+<a href="/forum">
+Back
+</a>
+
+<div class="box">
+
+<h2>Create Post</h2>
+
+<form action="/create-post" method="POST">
+
+<input
+type="text"
+name="title"
+placeholder="Post title"
+required
+>
+
+<textarea
+name="content"
+placeholder="Write something..."
+required
+></textarea>
+
+<input
+type="hidden"
+name="section"
+value="<%= section %>"
+>
+
+<button>
+Publish
+</button>
+
+</form>
+
+</div>
+
+<% posts.forEach(post=> { %>
+
+<div class="box">
+
+<h2>
+<%= post.title %>
+</h2>
+
+<p>
+<%= post.content %>
+</p>
+
+<hr>
+
+<p>
+By <%= post.author %>
+</p>
+
+</div>
+
+<% }) %>
+
+</body>
+</html>
