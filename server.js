@@ -1,53 +1,65 @@
 // server.js
 
 const express = require("express");
+const mongoose = require("mongoose");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const bcrypt = require("bcryptjs");
 const path = require("path");
 
 const app = express();
+
+mongoose.connect("mongodb://127.0.0.1:27017/forumdb");
+
+const UserSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  avatar: {
+    type: String,
+    default:
+      "https://i.imgur.com/6VBx3io.png",
+  },
+});
+
+const PostSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  section: String,
+  author: String,
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const User = mongoose.model(
+  "User",
+  UserSchema
+);
+
+const Post = mongoose.model(
+  "Post",
+  PostSchema
+);
+
+app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: "forum_secret_key",
+    secret: "forum_secret",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24,
-    },
   })
 );
 
-app.use(express.static(path.join(__dirname, "public")));
-
-const users = [];
-
-const sections = [
-  {
-    id: 1,
-    title: "General Discussion",
-    description: "Talk about anything here",
-  },
-  {
-    id: 2,
-    title: "Games",
-    description: "Gaming section",
-  },
-  {
-    id: 3,
-    title: "Technology",
-    description: "Technology news",
-  },
-  {
-    id: 4,
-    title: "Movies",
-    description: "Movies and series",
-  },
-];
+app.use(
+  express.static(
+    path.join(__dirname, "public")
+  )
+);
 
 function auth(req, res, next) {
   if (!req.session.user) {
@@ -57,255 +69,155 @@ function auth(req, res, next) {
   next();
 }
 
-app.post("/register", (req, res) => {
-  const { username, password } = req.body;
+const sections = [
+  "General",
+  "Games",
+  "Technology",
+  "Movies",
+  "Anime",
+];
 
-  if (!username || !password) {
-    return res.json({
-      success: false,
-      message: "Fill all fields",
-    });
-  }
-
-  const exists = users.find(
-    (u) => u.username === username
-  );
-
-  if (exists) {
-    return res.json({
-      success: false,
-      message: "Username already exists",
-    });
-  }
-
-  users.push({
-    username,
-    password,
-  });
-
-  req.session.user = {
-    username,
-  };
-
-  res.json({
-    success: true,
+app.get("/", (req, res) => {
+  res.render("index", {
+    user: req.session.user,
   });
 });
 
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+app.post("/register", async (req, res) => {
+  const { username, password } =
+    req.body;
 
-  const user = users.find(
-    (u) =>
-      u.username === username &&
-      u.password === password
-  );
+  const exists = await User.findOne({
+    username,
+  });
 
-  if (!user) {
-    return res.json({
-      success: false,
-      message: "Wrong username or password",
-    });
+  if (exists) {
+    return res.send("User exists");
   }
 
+  const hash = await bcrypt.hash(
+    password,
+    10
+  );
+
+  const user = await User.create({
+    username,
+    password: hash,
+  });
+
   req.session.user = {
+    id: user._id,
     username: user.username,
   };
 
-  res.json({
-    success: true,
-  });
+  res.redirect("/forum");
 });
 
-app.get("/logout", auth, (req, res) => {
+app.post("/login", async (req, res) => {
+  const { username, password } =
+    req.body;
+
+  const user = await User.findOne({
+    username,
+  });
+
+  if (!user) {
+    return res.send("Wrong account");
+  }
+
+  const match = await bcrypt.compare(
+    password,
+    user.password
+  );
+
+  if (!match) {
+    return res.send("Wrong password");
+  }
+
+  req.session.user = {
+    id: user._id,
+    username: user.username,
+  };
+
+  res.redirect("/forum");
+});
+
+app.get("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
   });
 });
 
-app.get("/profile", auth, (req, res) => {
-  res.send(`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Profile</title>
+app.get("/forum", auth, async (req, res) => {
+  const posts = await Post.find().sort({
+    created: -1,
+  });
 
-    <style>
-      body{
-        background:#0f0f0f;
-        color:white;
-        font-family:Arial;
-        padding:40px;
-      }
-
-      .box{
-        background:#1c1c1c;
-        padding:30px;
-        border-radius:20px;
-        max-width:500px;
-      }
-
-      a{
-        color:#4da6ff;
-        text-decoration:none;
-      }
-
-      .btn{
-        display:inline-block;
-        margin-top:15px;
-      }
-    </style>
-  </head>
-
-  <body>
-
-    <div class="box">
-      <h1>Welcome ${
-        req.session.user.username
-      }</h1>
-
-      <p>
-        This is your profile page.
-      </p>
-
-      <a class="btn" href="/sections">
-        Open Forum Sections
-      </a>
-
-      <br><br>
-
-      <a class="btn" href="/logout">
-        Logout
-      </a>
-    </div>
-
-  </body>
-  </html>
-  `);
+  res.render("forum", {
+    user: req.session.user,
+    sections,
+    posts,
+  });
 });
 
-app.get("/sections", auth, (req, res) => {
-  const html = sections
-    .map(
-      (section) => `
-      <div class="card">
-        <h2>${section.title}</h2>
+app.get(
+  "/section/:name",
+  auth,
+  async (req, res) => {
+    const posts = await Post.find({
+      section: req.params.name,
+    }).sort({
+      created: -1,
+    });
 
-        <p>${section.description}</p>
-
-        <a href="/section/${section.id}">
-          Enter Section
-        </a>
-      </div>
-    `
-    )
-    .join("");
-
-  res.send(`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Forum Sections</title>
-
-    <style>
-      body{
-        background:#0f0f0f;
-        color:white;
-        font-family:Arial;
-        padding:30px;
-      }
-
-      .card{
-        background:#1c1c1c;
-        padding:20px;
-        border-radius:20px;
-        margin-bottom:20px;
-      }
-
-      a{
-        color:#4da6ff;
-        text-decoration:none;
-      }
-    </style>
-  </head>
-
-  <body>
-
-    <h1>Forum Sections</h1>
-
-    ${html}
-
-    <br>
-
-    <a href="/profile">
-      Back To Profile
-    </a>
-
-  </body>
-  </html>
-  `);
-});
-
-app.get("/section/:id", auth, (req, res) => {
-  const section = sections.find(
-    (s) => s.id == req.params.id
-  );
-
-  if (!section) {
-    return res.send("Section not found");
+    res.render("section", {
+      user: req.session.user,
+      posts,
+      section: req.params.name,
+    });
   }
+);
 
-  res.send(`
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>${section.title}</title>
+app.post(
+  "/create-post",
+  auth,
+  async (req, res) => {
+    const {
+      title,
+      content,
+      section,
+    } = req.body;
 
-    <style>
-      body{
-        background:#0f0f0f;
-        color:white;
-        font-family:Arial;
-        padding:30px;
-      }
+    await Post.create({
+      title,
+      content,
+      section,
+      author:
+        req.session.user.username,
+    });
 
-      .box{
-        background:#1c1c1c;
-        padding:25px;
-        border-radius:20px;
-      }
+    res.redirect(
+      "/section/" + section
+    );
+  }
+);
 
-      a{
-        color:#4da6ff;
-      }
-    </style>
-  </head>
+app.get("/profile", auth, async (
+  req,
+  res
+) => {
+  const posts = await Post.find({
+    author: req.session.user.username,
+  });
 
-  <body>
-
-    <div class="box">
-
-      <h1>${section.title}</h1>
-
-      <p>
-        ${section.description}
-      </p>
-
-      <p>
-        Welcome to the section.
-      </p>
-
-      <a href="/sections">
-        Back To Sections
-      </a>
-
-    </div>
-
-  </body>
-  </html>
-  `);
+  res.render("profile", {
+    user: req.session.user,
+    posts,
+  });
 });
 
 app.listen(3000, () => {
-  console.log("Server running on port 3000");
+  console.log(
+    "Forum running on port 3000"
+  );
 });
