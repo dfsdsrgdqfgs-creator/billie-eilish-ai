@@ -9,187 +9,170 @@
 
 <title>Profile</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css?v=20">
 
 </head>
 
 <body>
 
-<!-- Sidebar -->
+<!-- TOP HEADER -->
 
-<aside class="sidebar">
+<div class="top-header">
 
-  <div class="logo">
-    He Gallery
-  </div>
-
-  <nav>
+  <div class="top-left">
 
     <a href="index.html">🏠 Home</a>
 
-    <a href="forum.html">💬 Forum</a>
-
-  </nav>
-
-</aside>
-
-<!-- Top Bar -->
-
-<div class="top-user-bar">
-
-  <div class="user-icons">
-
-    <span>✉️</span>
-
-    <span>🔔</span>
-
-  </div>
-
-  <div class="user-profile">
-
-    <img src="icon.jpg" class="user-avatar">
-
-    <span id="topUsername">
-      Guest
-    </span>
+    <a href="forum.html">💬 Forums</a>
 
   </div>
 
 </div>
 
-<!-- Main -->
+<!-- PROFILE -->
 
-<main class="main">
+<div class="xen-profile">
 
-  <!-- Upload Banner -->
+  <!-- COVER -->
 
-  <div class="upload-banner-box">
+  <div class="xen-cover">
 
-    <input type="file" id="bannerInput" accept="image/*,gif/*">
+    <img
+      src="icon.jpg"
+      class="xen-avatar"
+    >
 
-    <button onclick="uploadBanner()">
-      Upload Banner
-    </button>
+    <div class="xen-user-info">
 
-  </div>
+      <h1 id="profileName">
+        admin
+      </h1>
 
-  <!-- Upload Avatar -->
+      <span class="xen-rank">
+        Staff member
+      </span>
 
-  <div class="upload-avatar-box">
+      <h3>
+        Administrator
+      </h3>
 
-    <input type="file" id="avatarInput" accept="image/*,gif/*">
+      <p>
+        Joined: Mar 6, 2026
+      </p>
 
-    <button onclick="uploadAvatar()">
-      Upload Avatar
-    </button>
+      <p>
+        Last seen: A moment ago
+      </p>
 
-  </div>
+    </div>
 
-  <!-- Profile Banner -->
+    <div class="xen-tools">
 
-  <div class="profile-banner">
+      <button>
+        Edit profile banner
+      </button>
 
-    <img src="banner.jpg" class="profile-banner-img" id="profileBanner">
-
-    <div class="profile-content">
-
-      <!-- Avatar -->
-
-      <img src="icon.jpg" class="profile-avatar" id="profileAvatar">
-
-      <!-- User Info -->
-
-      <div class="profile-info">
-
-        <h1 id="profileUsername">
-          Guest
-        </h1>
-
-        <p>
-          Joined: 2026
-        </p>
-
-        <p>
-          Last seen: Online now
-        </p>
-
-      </div>
+      <button>
+        Moderator tools
+      </button>
 
     </div>
 
   </div>
 
-  <!-- Stats -->
+  <!-- STATS -->
 
-  <div class="profile-stats">
+  <div class="xen-stats">
 
-    <div class="stat-box">
+    <div>
 
-      <h3>
+      <span>
         Messages
-      </h3>
+      </span>
 
-      <p>
+      <strong>
         0
-      </p>
+      </strong>
 
     </div>
 
-    <div class="stat-box">
+    <div>
 
-      <h3>
-        Reactions
-      </h3>
+      <span>
+        Reaction score
+      </span>
 
-      <p>
+      <strong>
         0
-      </p>
+      </strong>
 
     </div>
 
-    <div class="stat-box">
+    <div>
 
-      <h3>
+      <span>
         Points
-      </h3>
+      </span>
 
-      <p>
+      <strong>
         0
-      </p>
+      </strong>
 
     </div>
 
   </div>
 
-  <!-- Tabs -->
+  <!-- TABS -->
 
-  <div class="profile-tabs">
+  <div class="xen-tabs">
+
+    <button class="active-xen-tab">
+      Profile posts
+    </button>
 
     <button>
-      Profile posts
+      Latest activity
+    </button>
+
+    <button>
+      Postings
     </button>
 
     <button>
       About
     </button>
 
-    <button>
-      Awards
-    </button>
+  </div>
 
-    <button>
-      Ratings
-    </button>
+  <!-- STATUS -->
+
+  <div class="xen-status-box">
+
+    <img
+      src="icon.jpg"
+      class="status-avatar"
+    >
+
+    <input
+      type="text"
+      placeholder="Update your status..."
+    >
 
   </div>
 
-</main>
+  <!-- POSTS -->
+
+  <div class="xen-empty-posts">
+
+    There are no messages on this profile yet.
+
+  </div>
+
+</div>
 
 <script>
 
-/* Load Username */
-
-async function loadProfile(){
+async function loadUser(){
 
   const response = await fetch('/me');
 
@@ -197,81 +180,17 @@ async function loadProfile(){
 
   if(data.loggedIn){
 
-    document.getElementById('profileUsername').innerText = data.username;
-
-    document.getElementById('topUsername').innerText = data.username;
+    document.getElementById('profileName').innerText =
+    data.username;
 
   }
 
 }
 
-loadProfile();
-
-/* Upload Avatar */
-
-function uploadAvatar(){
-
-  const file = document.getElementById('avatarInput').files[0];
-
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-
-    document.getElementById('profileAvatar').src = e.target.result;
-
-    localStorage.setItem('profileAvatar', e.target.result);
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-/* Upload Banner */
-
-function uploadBanner(){
-
-  const file = document.getElementById('bannerInput').files[0];
-
-  if(!file) return;
-
-  const reader = new FileReader();
-
-  reader.onload = function(e){
-
-    document.getElementById('profileBanner').src = e.target.result;
-
-    localStorage.setItem('profileBanner', e.target.result);
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-/* Load Saved Avatar */
-
-const savedAvatar = localStorage.getItem('profileAvatar');
-
-if(savedAvatar){
-
-  document.getElementById('profileAvatar').src = savedAvatar;
-
-}
-
-/* Load Saved Banner */
-
-const savedBanner = localStorage.getItem('profileBanner');
-
-if(savedBanner){
-
-  document.getElementById('profileBanner').src = savedBanner;
-
-}
+loadUser();
 
 </script>
 
 </body>
+
 </html>
