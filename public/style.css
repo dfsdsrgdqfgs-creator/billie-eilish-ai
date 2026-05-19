@@ -1,351 +1,138 @@
-<!-- REAL FORUM CATEGORIES -->
-
-<section class="real-forum">
-
-  <div class="real-forum-header">
-    🏠 Main Forums
-  </div>
-
-  <!-- ANNOUNCEMENTS -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      📢
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Announcements
-        </a>
-      </h2>
-
-      <p>
-        Official forum news and updates.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      Last post by Admin
-    </div>
-
-  </div>
-
-  <!-- INTRODUCTIONS -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      👋
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Introductions
-        </a>
-      </h2>
-
-      <p>
-        Introduce yourself to the community.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- GENERAL DISCUSSION -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      💬
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          General Discussion
-        </a>
-      </h2>
-
-      <p>
-        Talk casually with members.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- TECH -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      💻
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Technology
-        </a>
-      </h2>
-
-      <p>
-        Tech support, hardware and software.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- GAMING -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      🎮
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Gaming
-        </a>
-      </h2>
-
-      <p>
-        PC, Xbox, PlayStation and mobile gaming.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- MARKETPLACE -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      🛒
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Marketplace
-        </a>
-      </h2>
-
-      <p>
-        Buy, sell and trade safely.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- GRAPHICS -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      🎨
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Graphics & Design
-        </a>
-      </h2>
-
-      <p>
-        Share graphics, banners and artwork.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- OFF TOPIC -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      🍿
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Off Topic
-        </a>
-      </h2>
-
-      <p>
-        Random conversations and fun topics.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-  <!-- PREMIUM -->
-
-  <div class="real-forum-item">
-
-    <div class="real-forum-icon">
-      💎
-    </div>
-
-    <div class="real-forum-info">
-
-      <h2>
-        <a href="forum.html">
-          Premium Lounge
-        </a>
-      </h2>
-
-      <p>
-        VIP discussions for premium members.
-      </p>
-
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      THREADS
-    </div>
-
-    <div class="forum-stats">
-      <strong>0</strong>
-      POSTS
-    </div>
-
-    <div class="last-post">
-      No posts yet
-    </div>
-
-  </div>
-
-</section>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:#111;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+.top-header{
+  background:#0f2235;
+  padding:15px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.top-left,
+.top-right{
+  display:flex;
+  gap:10px;
+}
+
+.top-left a{
+  background:#1f2f45;
+  color:white;
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:4px;
+}
+
+.top-left a:hover{
+  background:#2d5f96;
+}
+
+.login-btn{
+  background:#1f2f45;
+  border:none;
+  color:white;
+  padding:10px 15px;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.register-btn{
+  background:#58b05a;
+  border:none;
+  color:white;
+  padding:10px 15px;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.main{
+  width:95%;
+  margin:auto;
+  padding-top:20px;
+}
+
+.banner{
+  height:140px;
+  background:#172330;
+  border-radius:6px;
+  margin-bottom:20px;
+}
+
+.forum-top-tabs{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.forum-top-tabs button{
+  background:#1a1a1a;
+  border:1px solid #2a2a2a;
+  color:white;
+  padding:10px 14px;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+.active-tab{
+  background:#2d5f96 !important;
+}
+
+.real-forum{
+  background:#161616;
+  border:1px solid #2a2a2a;
+  border-radius:6px;
+  overflow:hidden;
+}
+
+.real-forum-header{
+  background:#2d5f96;
+  padding:14px;
+  font-weight:bold;
+}
+
+.real-forum-item{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:22px;
+  border-top:1px solid #222;
+}
+
+.real-forum-icon{
+  font-size:28px;
+}
+
+.real-forum-info{
+  flex:1;
+}
+
+.real-forum-info h2 a{
+  color:white;
+  text-decoration:none;
+}
+
+.real-forum-info p{
+  color:#888;
+  margin-top:5px;
+}
+
+.forum-stats{
+  width:120px;
+  text-align:center;
+  color:#69a7ff;
+}
+
+.forum-stats strong{
+  display:block;
+  font-size:24px;
+  color:white;
+}
